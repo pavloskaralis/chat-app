@@ -26,16 +26,18 @@
             console.log(data);
             //when socket returns a room name, force url change
             if(data.roomName && !data.request) {
-                window.location.pathname = '/astral/' + data.roomName + '/';
+                window.location.pathname = data.roomHash ? '/astral/' + data.roomHash + '/' + data.roomName + '/' : '/astral/' + data.roomName + '/'
             }
             //when socket returns room list, generate room nodes
             if(data.rooms) {
                 for(let i = 0; i < data.rooms.length; i++){
                     let room = document.createElement('button');
                     let access = document.createElement('span');
+                    let capacity = document.createElement('span');
                     let br = document.createElement('br');
                     room.textContent = data.rooms[i].roomName;
-                    access.textContent = data.rooms[i].access;
+                    access.textContent = data.rooms[i].roomAccess;
+                    capacity.textContent = ' ' + data.rooms[i].roomCapacity + ' of 8';
                     room.onclick = ()=> {
                         lobbySocket.send(JSON.stringify({
                             'roomName': data.rooms[i].roomName,
@@ -45,6 +47,7 @@
                     }
                     document.body.append(room);
                     document.body.append(access);
+                    document.body.append(capacity);
                     document.body.append(br);
                 }
             }

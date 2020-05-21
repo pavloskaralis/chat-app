@@ -12,6 +12,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
+        
+
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -107,7 +109,8 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if the password matches, return secret hash
             if rooms[room_name]['room_password'] == room_password:
                 await self.send(text_data=json.dumps({
-                    'roomName': rooms[room_name]['room_hash']
+                    'roomName': rooms[room_name],
+                    'roomHash': rooms[room_name]['room_hash'],
                 }))
             #if the password doesnt match, return error 
             else:
@@ -125,13 +128,15 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 rooms.update({
                     room_name : {
                         'room_password': room_password,
-                        'room_hash': room_hash,
+                        'room_hash': room_hash if room_password else '',
+                        'room_capacity': 0,
                     }
                 })
                 #add room info to rooms info list
                 rooms_info.append({
                     'roomName': room_name,
-                    'access': 'private' if room_password else 'public',
+                    'roomAccess': 'private' if room_password else 'public',
+                    'roomCapacity': 0,
                 })
                 # Send room names to lobby group
                 await self.channel_layer.group_send(
@@ -143,7 +148,9 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 )
                 # Send room name to creator (pushes them into room)
                 await self.send(text_data=json.dumps({
-                    'roomName': room_hash if room_password else room_name,
+                    'roomName': room_name,
+                    'roomHash': room_hash if room_password else '',
+                    'roomPassword': room_password
                 }))
             #if conditions not met
             else:

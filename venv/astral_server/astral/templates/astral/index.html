@@ -10,6 +10,7 @@
     Chat Room Password (leave blank for public)<br>
     <input id="room-password-input" type="text" size="100"><br>
     <input id="room-name-submit" type="button" value="Enter"><br>
+   
     Click to Join Room <br>
     <script>
 
@@ -23,9 +24,11 @@
             console.log('received')
             const data = JSON.parse(e.data);
             console.log(data);
-            if(data.roomName) {
+            //when socket returns a room name, force url change
+            if(data.roomName && !data.request) {
                 window.location.pathname = '/astral/' + data.roomName + '/';
             }
+            //when socket returns room list, generate room nodes
             if(data.rooms) {
                 for(let i = 0; i < data.rooms.length; i++){
                     let room = document.createElement('button');
@@ -34,12 +37,45 @@
                     room.textContent = data.rooms[i].roomName;
                     access.textContent = data.rooms[i].access;
                     room.onclick = ()=> {
-                        window.location.pathname = '/astral/' + data.rooms[i].roomName + '/';
+                        lobbySocket.send(JSON.stringify({
+                            'roomName': data.rooms[i].roomName,
+                            'requestType': 'join'
+                        }));
+                        // window.location.pathname = '/astral/' + data.rooms[i].roomName + '/';
                     }
                     document.body.append(room);
                     document.body.append(access);
                     document.body.append(br);
                 }
+            }
+            // when socket requests a password, show password input
+            if(data.request) { 
+                let text = document.createElement('div');
+                let input = document.createElement('input');
+                let br = document.createElement('br');
+                let submit = document.createElement('input');
+
+                text.textContent = 'Enter Room Password'
+                input.setAttribute('type','text')
+                input.setAttribute('size','100')
+                input.setAttribute('id','password-request-input')
+
+                submit.setAttribute('type','button')
+                submit.setAttribute('size','100');
+                submit.setAttribute('id','password-request-submit')
+                submit.setAttribute('value','enter')
+                submit.onclick = () => {
+                    lobbySocket.send(JSON.stringify({
+                        'roomName': data.roomName,
+                        'roomPassword': input.value,
+                        'requestType': 'password',
+                    }));
+                }
+
+                document.body.append(text)
+                document.body.append(input)
+                document.body.append(br)
+                document.body.append(submit)
             }
         };
 

@@ -3,9 +3,7 @@ import json, random, string
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 # private
-rooms = []
-# easy way to check names
-room_names = []
+rooms = {}
 # sent to client
 rooms_info = []
 
@@ -86,23 +84,50 @@ class LobbyConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         request_type = text_data_json['requestType']
-        room_name = text_data_json['roomName']
-        room_password = text_data_json['roomPassword']
-
+        #if client requests to join a room
         if request_type == 'join':
-            pass
+            room_name = text_data_json['roomName']
+            #if room has a password
+            if rooms[room_name]['room_password']:
+                #send password request message to client
+                await self.send(text_data=json.dumps({
+                    'roomName': room_name,
+                    'request': 'password required',
+                }))
+            #if room is public
+            else:
+                #allow access to client
+                await self.send(text_data=json.dumps({
+                    'roomName': room_name,
+                })) 
+        #if client submits a private room password
+        if request_type == 'password':
+            room_name = text_data_json['roomName']
+            room_password = text_data_json['roomPassword']
+            #if the password matches, return secret hash
+            if rooms[room_name]['room_password'] == room_password:
+                await self.send(text_data=json.dumps({
+                    'roomName': rooms[room_name]['room_hash']
+                }))
+            #if the password doesnt match, return error 
+            else:
+                await self.send(text_data=json.dumps({
+                    'error': 'invalid password'
+                }))
+        #if client requests to start a room
         elif request_type == 'start':
+            room_name = text_data_json['roomName']
+            room_password = text_data_json['roomPassword']
             #if room name not taken; prevent lobby group name being taken
-            if room_name and room_name not in room_names and room_name != 'lobby':
+            if room_name and room_name not in rooms and room_name != 'lobby':
                 room_hash = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
                 #add room to rooms list            
-                rooms.append({
-                    'room_name':room_name,
-                    'room_password': room_password,
-                    'room_hash': room_hash,
+                rooms.update({
+                    room_name : {
+                        'room_password': room_password,
+                        'room_hash': room_hash,
+                    }
                 })
-                #add room name to room names list
-                room_names.append(room_name)
                 #add room info to rooms info list
                 rooms_info.append({
                     'roomName': room_name,
@@ -118,8 +143,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 )
                 # Send room name to creator (pushes them into room)
                 await self.send(text_data=json.dumps({
-                    'roomName': room_name,
-                    'roomPassword': room_password,
+                    'roomName': room_hash if room_password else room_name,
                 }))
             #if conditions not met
             else:

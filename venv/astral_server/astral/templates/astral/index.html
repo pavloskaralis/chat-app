@@ -5,11 +5,49 @@
     <title>Chat Rooms</title>
 </head>
 <body>
-    What chat room would you like to enter?<br>
+    Chat Room Name<br>
     <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
-
+    Chat Room Password (leave blank for public)<br>
+    <input id="room-password-input" type="text" size="100"><br>
+    <input id="room-name-submit" type="button" value="Enter"><br>
+    Click to Join Room <br>
     <script>
+
+        const lobbySocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/astral/'
+        );
+
+        lobbySocket.onmessage = function(e) {
+            console.log('received')
+            const data = JSON.parse(e.data);
+            console.log(data);
+            if(data.roomName) {
+                window.location.pathname = '/astral/' + data.roomName + '/';
+            }
+            if(data.rooms) {
+                for(let i = 0; i < data.rooms.length; i++){
+                    let room = document.createElement('button');
+                    let access = document.createElement('span');
+                    let br = document.createElement('br');
+                    room.textContent = data.rooms[i].roomName;
+                    access.textContent = data.rooms[i].access;
+                    room.onclick = ()=> {
+                        window.location.pathname = '/astral/' + data.rooms[i].roomName + '/';
+                    }
+                    document.body.append(room);
+                    document.body.append(access);
+                    document.body.append(br);
+                }
+            }
+        };
+
+
+       lobbySocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
         document.querySelector('#room-name-input').focus();
         document.querySelector('#room-name-input').onkeyup = function(e) {
             if (e.keyCode === 13) {  // enter, return
@@ -19,7 +57,13 @@
 
         document.querySelector('#room-name-submit').onclick = function(e) {
             var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/astral/' + roomName + '/';
+            var roomPassword = document.querySelector('#room-password-input').value;
+
+            lobbySocket.send(JSON.stringify({
+                'roomName': roomName,
+                'roomPassword': roomPassword, 
+                'requestType': 'start'
+            }));
         };
     </script>
 </body>

@@ -43,7 +43,7 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             if(data.message) {
-                document.querySelector('#chat-log').value += (data.message + '\n');
+                document.querySelector('#chat-log').value += (data.displayName + ': ' + data.message + '\n');
             }
             if(data.error) {
                 window.location.pathname = '/astral/'

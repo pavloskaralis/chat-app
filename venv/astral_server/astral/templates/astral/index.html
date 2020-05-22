@@ -30,20 +30,23 @@
             }
             //when socket returns room list, generate room nodes
             if(data.rooms) {
-                for(let i = 0; i < data.rooms.length; i++){
+                let rooms = Object.keys(data.rooms);
+                for(let i = 0; i < rooms.length; i++){
+                    let key = rooms[i];
+                    console.log(data.rooms[key])
                     let room = document.createElement('button');
                     let access = document.createElement('span');
                     let capacity = document.createElement('span');
                     let br = document.createElement('br');
-                    room.textContent = data.rooms[i].roomName;
-                    access.textContent = data.rooms[i].roomAccess;
-                    capacity.textContent = ' ' + data.rooms[i].roomCapacity + ' of 8';
+                    room.textContent = data.rooms[key].roomName;
+                    access.textContent = data.rooms[key].roomAccess;
+                    capacity.textContent = ' ' + data.rooms[key].roomCapacity + ' of 8';
                     room.onclick = ()=> {
                         lobbySocket.send(JSON.stringify({
-                            'roomName': data.rooms[i].roomName,
+                            'roomName': data.rooms[key].roomName,
                             'requestType': 'join'
                         }));
-                        // window.location.pathname = '/astral/' + data.rooms[i].roomName + '/';
+                        // window.location.pathname = '/astral/' + data.rooms[key].roomName + '/';
                     }
                     document.body.append(room);
                     document.body.append(access);

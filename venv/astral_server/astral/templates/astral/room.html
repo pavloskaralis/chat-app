@@ -11,23 +11,45 @@
     {{ room_name|json_script:"room-name" }}
     <script>
         //switch to grab from url 
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/astral/'
-            + roomName
-            + '/'
-        );
-
+        const url = window.location.href;
+        const splitUrl = url.split('/').filter(el => {if(el)return el});
+        const roomName = splitUrl.length === 5 ? splitUrl[4] : splitUrl[3];
+        const roomHash = splitUrl.length === 5 ? splitUrl[3] : ''
+        console.log('name',roomName,'hash',roomHash)
+        
+        let chatSocket = roomHash ? 
+            new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/astral/'
+                + roomHash
+                + '/'
+                + roomName
+                + '/'
+            ) :
+            new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/ws/astral/'
+                + roomName
+                + '/'
+            );
+        console.log(chatSocket)
+       
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            if(data.message) {
+                document.querySelector('#chat-log').value += (data.message + '\n');
+            }
+            if(data.error) {
+                console.log(error)
+                window.location.pathname = '/astral/'
+            }
         };
 
         chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
+            console.error('Room not found or invalid credentials');
+            // window.location.pathname = '/astral/'
         };
 
         document.querySelector('#chat-message-input').focus();

@@ -10,32 +10,41 @@ rooms_info = {}
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        # self.room_hash = ''
-        # if rooms[self.room_name]['room_password']:
-        #     self.room_hash = self.scope['url_route']['kwargs']['room_hash']
+        self.url_hash = self.scope['url_route']['kwargs']['room_hash'] 
+        self.room_group_name = 'chat_' + self.url_hash + '_' + self.room_name
 
-        self.room_group_name = 'chat_%s' % self.room_name
-        # if the room exists and hash matches
-        if rooms_info[self.room_name]:
-        # and rooms[self.room_name]['room_hash'] == self.room_hash :
-            # Join room group
-            await self.channel_layer.group_add(
-                self.room_group_name,
-                self.channel_name
-            )
-            await self.accept()
-            # add to capacity count
-            rooms_info[self.room_name]['roomCapacity'] += 1
-            # update lobby lists capacities 
-            await self.channel_layer.group_send(
-                'lobby',
-                {
-                    'type': 'lobby_update',
-                    'rooms_info': rooms_info,
-                }
-            )
-                
-        #error handle by frontend
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+        
+        # if room not found send error to client
+        if not(rooms[self.room_name]) :
+            await self.send(text_data=json.dumps({
+                'error': 'room not found'
+            }))
+        # if invalid credentials send error to client
+        if rooms[self.room_name]['room_hash'] != self.url_hash :
+            await self.send(text_data=json.dumps({
+                'error': 'invalid authentication'
+            }))
+        if rooms_info[self.room_name]['roomCapacity'] >= 8 :
+            await self.send(text_data=json.dumps({
+                'error': 'room capacity reached'
+            }))
+
+        # add to capacity count
+        rooms_info[self.room_name]['roomCapacity'] += 1
+        # update lobby lists capacities 
+        await self.channel_layer.group_send(
+            'lobby',
+            {
+                'type': 'lobby_update',
+                'rooms_info': rooms_info,
+            }
+        )
+                        
             
 
     async def disconnect(self, close_code):
@@ -82,14 +91,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'message': message
         }))
 
-     # Receive message from lobby group
-    async def lobby_update(self, event):
-        updated_rooms = event['rooms_info']
-
-        # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'rooms': updated_rooms,
-        }))
 #///////////////////////
 #///////////////////////
 #///////////////////////
@@ -139,6 +140,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                     #allow access to client
                     await self.send(text_data=json.dumps({
                         'roomName': room_name,
+                        'roomHash': 'public',
                     })) 
             #if room is full
             else: 
@@ -174,7 +176,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 rooms.update({
                     room_name : {
                         'room_password': room_password,
-                        'room_hash': room_hash if room_password else '',
+                        'room_hash': room_hash if room_password else 'public',
                     }
                 })
                 #add room info to rooms info list
@@ -188,7 +190,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 # Send room name to creator (pushes them into room)
                 await self.send(text_data=json.dumps({
                     'roomName': room_name,
-                    'roomHash': room_hash if room_password else '',
+                    'roomHash': room_hash if room_password else 'public',
                     'roomPassword': room_password
                 }))
             #if conditions not met
@@ -213,5 +215,5 @@ class LobbyConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'rooms': updated_rooms
+            'rooms': updated_rooms,
         }))

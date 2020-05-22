@@ -26,7 +26,7 @@
             console.log(data);
             //when socket returns a room name, force url change
             if(data.roomName && !data.request) {
-                window.location.pathname = data.roomHash ? '/astral/' + data.roomHash + '/' + data.roomName + '/' : '/astral/' + data.roomName + '/'
+                window.location.pathname = '/astral/' + data.roomHash + '/' + data.roomName + '/';
             }
             //when socket returns room list, generate room nodes
             if(data.rooms) {

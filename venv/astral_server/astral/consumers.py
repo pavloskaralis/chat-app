@@ -34,6 +34,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'error': 'room capacity reached'
             }))
 
+        #assign display name
+        display_index = rooms_info[self.room_name]['roomCapacity']
+        display_name = rooms[self.room_name]['display_names'][display_index]
+        self.display_name = display_name
         # add to capacity count
         rooms_info[self.room_name]['roomCapacity'] += 1
         # update lobby lists capacities 
@@ -45,14 +49,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
                         
-            
-
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
+        # remove display name
+        rooms[self.room_name]['display_names'].remove(self.display_name)
         # subtract from capacity count
         rooms_info[self.room_name]['roomCapacity'] -= 1
         #if room becomes empty delete
@@ -130,18 +134,18 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             if room_capacity < 8:
                 #if room has a password
                 if rooms[room_name]['room_password']:
-                    #send password request message to client
+                    #send password and display request
                     await self.send(text_data=json.dumps({
                         'roomName': room_name,
-                        'request': 'password required',
+                        'request': 'private',
                     }))
                 #if room is public
                 else:
-                    #allow access to client
+                    #send display request
                     await self.send(text_data=json.dumps({
                         'roomName': room_name,
-                        'roomHash': 'public',
-                    })) 
+                        'request': 'public',
+                    }))
             #if room is full
             else: 
                 #send error to client
@@ -149,34 +153,70 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                     'error': 'full capacity'
                 })) 
 
-        #if client submits a private room password
-        if request_type == 'password':
+        #if client submits private room request
+        if request_type == 'private':
             room_name = text_data_json['roomName']
             room_password = text_data_json['roomPassword']
-            #if the password matches, return secret hash
-            if rooms[room_name]['room_password'] == room_password:
+            display_name = text_data_json['displayName']
+            #if the password matches and display not taken return secret hash
+            if rooms[room_name]['room_password'] == room_password and display_name and display_name not in rooms[room_name]['display_names']:
+                rooms[room_name]['display_names'].append(display_name)
                 await self.send(text_data=json.dumps({
                     'roomName': room_name,
                     'roomHash': rooms[room_name]['room_hash'],
                 }))
             #if the password doesnt match, return error 
-            else:
+            elif rooms[room_name]['room_password'] != room_password :
                 await self.send(text_data=json.dumps({
                     'error': 'invalid password'
                 }))
+            #if no display name entered issue error
+            elif not(display_name):
+                await self.send(text_data=json.dumps({
+                    'error': 'display name required',
+                }))
+            #if display name taken issue error
+            elif display_name in rooms[room_name]['display_names']:
+                await self.send(text_data=json.dumps({
+                    'error': 'display name taken',
+                }))
+            
 
+        #if client submits public room request
+        if request_type == 'public':
+            room_name = text_data_json['roomName']
+            display_name = text_data_json['displayName']
+            #if display name not taken allow access
+            if display_name and display_name not in rooms[room_name]['display_names']:
+                rooms[room_name]['display_names'].append(display_name)
+                await self.send(text_data=json.dumps({
+                    'roomName': room_name,
+                    'roomHash': rooms[room_name]['room_hash'],
+                }))
+            #if no display name entered issue error
+            elif not(display_name):
+                await self.send(text_data=json.dumps({
+                    'error': 'display name required',
+                }))
+            #if display name taken issue error
+            elif display_name in rooms[room_name]['display_names']:
+                await self.send(text_data=json.dumps({
+                    'error': 'display name taken',
+                }))
         #if client requests to start a room
         elif request_type == 'start':
             room_name = text_data_json['roomName']
             room_password = text_data_json['roomPassword']
+            display_name = text_data_json['displayName']
             #if room name not taken; prevent lobby group name being taken
-            if room_name and room_name not in rooms and room_name != 'lobby':
+            if room_name and display_name and room_name not in rooms and room_name != 'lobby':
                 room_hash = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
                 #add room to rooms list            
                 rooms.update({
                     room_name : {
                         'room_password': room_password,
                         'room_hash': room_hash if room_password else 'public',
+                        'display_names': [display_name],
                     }
                 })
                 #add room info to rooms info list
@@ -200,13 +240,17 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                     await self.send(text_data=json.dumps({
                         'error': 'room name not allowed'
                     }))
+                elif not(room_name):
+                    await self.send(text_data=json.dumps({
+                        'error': 'must enter a room name'
+                    }))
+                elif not(display_name):
+                    await self.send(text_data=json.dumps({
+                        'error': 'must enter a display name'
+                    }))
                 elif room_name and room_name != 'lobby':
                     await self.send(text_data=json.dumps({
                         'error': 'room name taken'
-                    }))
-                else:
-                    await self.send(text_data=json.dumps({
-                        'error': 'must enter a room name'
                     }))
 
     # Receive message from room group

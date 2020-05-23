@@ -33,13 +33,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'error': 'room capacity reached'
             }))
-
         #assign display name
         display_index = rooms_info[self.room_name]['roomCapacity']
         display_name = rooms[self.room_name]['display_names'][display_index]
         self.display_name = display_name
         # add to capacity count
-        rooms_info[self.room_name]['roomCapacity'] += 1
+        rooms_info[self.room_name]['roomCapacity'] += 1  
+        # send display and room name to new client 
+        await self.send(text_data=json.dumps({
+            'displayName': display_name,
+            'roomName': self.room_name,
+        }))
+        # update room with display names
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'display_names',
+                'display_names': rooms[self.room_name]['display_names'],
+            }
+        )
         # update lobby lists capacities 
         await self.channel_layer.group_send(
             'lobby',
@@ -48,6 +60,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'rooms_info': rooms_info,
             }
         )
+
                         
     async def disconnect(self, close_code):
         # Leave room group
@@ -59,6 +72,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         rooms[self.room_name]['display_names'].remove(self.display_name)
         # subtract from capacity count
         rooms_info[self.room_name]['roomCapacity'] -= 1
+        # update room with display names
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'display_names',
+                'display_names': rooms[self.room_name]['display_names'],
+            }
+        )
         #if room becomes empty delete
         if rooms_info[self.room_name]['roomCapacity'] == 0 :
             rooms.pop(self.room_name)
@@ -97,7 +118,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'message': message,
             'displayName': display_name,
         }))
+    # Receive updated display names
+    async def display_names(self, event):
+        display_names = event['display_names']
 
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'displayNames': display_names,
+        }))
 #///////////////////////
 #///////////////////////
 #///////////////////////
@@ -206,6 +234,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                 await self.send(text_data=json.dumps({
                     'error': 'display name taken',
                 }))
+
         #if client requests to start a room
         elif request_type == 'start':
             room_name = text_data_json['roomName']

@@ -147,13 +147,21 @@
             var roomName = document.querySelector('#room-name-input').value;
             var roomPassword = document.querySelector('#room-password-input').value;
             var displayName = document.querySelector('#room-display-input').value;
-
-            lobbySocket.send(JSON.stringify({
-                'roomName': roomName,
-                'roomPassword': roomPassword, 
-                'displayName': displayName, 
-                'requestType': 'start'
-            }));
+            
+            if(
+                roomName.match(/[a-zA-Z\d_]+/) &&
+                displayName.match(/[a-zA-Z\d_]+/) &&
+                (!roomPassword || roomPassword.match(/[a-zA-Z\d_]+/))
+            ) {
+                lobbySocket.send(JSON.stringify({
+                    'roomName': roomName,
+                    'roomPassword': roomPassword, 
+                    'displayName': displayName, 
+                    'requestType': 'start'
+                }));
+            } else {
+                console.log({error: 'invalid characters'})
+            }
         };
     </script>
 </body>

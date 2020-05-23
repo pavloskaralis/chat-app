@@ -42,6 +42,20 @@
        
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
+            console.log(data)
+            if(data.roomName) {
+                let room = document.createElement('div');
+                room.textContent = "Room: " + data.roomName + " User: " + data.displayName;
+                document.body.append(room)
+            }
+            if(data.displayNames){
+                let users = document.createElement('div');
+                users.textContent = "Online:"
+                data.displayNames.forEach(name => {
+                    users.textContent += (" " + name)
+                })
+                document.body.append(users)
+            }
             if(data.message) {
                 document.querySelector('#chat-log').value += (data.displayName + ': ' + data.message + '\n');
             }
@@ -72,4 +86,4 @@
         };
     </script>
 </body>
-</html>
+</html> 

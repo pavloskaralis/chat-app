@@ -35,14 +35,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }))
         #assign display name
         display_index = rooms_info[self.room_name]['roomCapacity']
+        #prevent refresh kick
+        # if len(rooms[self.room_name]['display_names']) <= rooms_info[self.room_name]['roomCapacity']:
+        #     rooms[self.room_name]['display_names'].append('unknown')
         display_name = rooms[self.room_name]['display_names'][display_index]
+
+
         self.display_name = display_name
-        # add to capacity count
+        # # add to capacity count
         rooms_info[self.room_name]['roomCapacity'] += 1  
         # send display and room name to new client 
         await self.send(text_data=json.dumps({
-            'displayName': display_name,
-            'roomName': self.room_name,
+            'roomHistory': rooms[self.room_name]['room_history'],
+            'diplayName': display_name,
         }))
         # update room with display names
         await self.channel_layer.group_send(
@@ -98,6 +103,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
 
+        rooms[self.room_name]['room_history'].append({'message':message, 'displayName':self.display_name})
+
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -118,6 +125,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'message': message,
             'displayName': display_name,
         }))
+        #update room history 
     # Receive updated display names
     async def display_names(self, event):
         display_names = event['display_names']
@@ -249,6 +257,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                         'room_password': room_password,
                         'room_hash': room_hash if room_password else 'public',
                         'display_names': [display_name],
+                        'room_history': [],
                     }
                 })
                 #add room info to rooms info list

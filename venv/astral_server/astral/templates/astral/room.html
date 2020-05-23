@@ -43,10 +43,14 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             console.log(data)
-            if(data.roomName) {
+            if(data.roomHistory) {
                 let room = document.createElement('div');
-                room.textContent = "Room: " + data.roomName + " User: " + data.displayName;
+                room.textContent = "Room: " + roomName + " User: " + data.displayName;
                 document.body.append(room)
+                
+                data.roomHistory.forEach(history => {
+                    document.querySelector('#chat-log').value += (history.displayName + ': ' + history.message + '\n');
+                })
             }
             if(data.displayNames){
                 let users = document.createElement('div');

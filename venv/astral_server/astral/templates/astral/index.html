@@ -82,14 +82,17 @@
                     input2.setAttribute('size','100')
                     input2.setAttribute('id','display-request-input')
 
-                 
                     submit.onclick = () => {
-                        lobbySocket.send(JSON.stringify({
-                            'roomName': data.roomName,
-                            'roomPassword': input.value,
-                            'displayName': input2.value,
-                            'requestType': 'private',
-                        }));
+                        if(input.value.match(/[a-zA-Z\d_]+/)) {
+                            lobbySocket.send(JSON.stringify({
+                                'roomName': data.roomName,
+                                'roomPassword': input.value,
+                                'displayName': input2.value,
+                                'requestType': 'private',
+                            }));
+                        } else {
+                            console.log({error: 'invalid characters'})
+                        }
                     }
 
                     document.body.append(text)
@@ -116,12 +119,17 @@
                     submit.setAttribute('value','enter')
 
                     submit.onclick = () => {
-                        lobbySocket.send(JSON.stringify({
-                            'roomName': data.roomName,
-                            'displayName': input.value,
-                            'requestType': 'public',
-                        }));
+                        if(input.value.match(/[a-zA-Z\d_]+/)) {
+                            lobbySocket.send(JSON.stringify({
+                                'roomName': data.roomName,
+                                'displayName': input.value,
+                                'requestType': 'public',
+                            }));
+                        } else {
+                            console.log({error: 'invalid characters'})
+                        }
                     }
+
 
                     document.body.append(text)
                     document.body.append(input)

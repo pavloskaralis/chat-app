@@ -1,0 +1,42 @@
+$breakpointA: 1200px;
+$breakpointB: 992px;
+$breakpointC: 768px;
+$breakpointD: 576px;
+$breakpointE: 500px;
+$breakpointF: 410px;
+$breakpointG: 320px;
+
+$fontA: 'Myriad Pro';
+$fontB: 'Courier New';
+
+.fontSizeA {
+
+}
+
+.fontSizeB {
+
+}
+
+.fontSizeC {
+
+}
+
+.fontSizeD {
+
+}
+
+.fontSizeE {
+    
+}
+
+.vertical-align {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+}
+
+$gray: rgb(205,210,215);
+$red: rgb(235,70,60);
+$white: rgb(245,245,245);
+$black: rgb(35,40,45);
+$blue: rgb(55,65,75);

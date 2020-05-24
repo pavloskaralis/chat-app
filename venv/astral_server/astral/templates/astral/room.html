@@ -21,7 +21,7 @@
             window.location.pathname = '/astral/'
         }
 
-        let chatSocket = roomHash ? 
+        let chatSocket = 
             new WebSocket(
                 'ws://'
                 + window.location.host
@@ -30,14 +30,8 @@
                 + '/'
                 + roomName
                 + '/'
-            ) :
-            new WebSocket(
-                'ws://'
-                + window.location.host
-                + '/ws/astral/'
-                + roomName
-                + '/'
-            );
+            ) 
+            
         console.log(chatSocket)
        
         chatSocket.onmessage = function(e) {

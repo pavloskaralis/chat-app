@@ -42,26 +42,26 @@
        
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            console.log(data)
+            console.log("here", data)
             if(data.roomHistory) {
                 let room = document.createElement('div');
-                room.textContent = "Room: " + roomName + " User: " + data.displayName;
+                room.textContent = "Room: " + roomName.replace(/_/g,' ') + " User: " + data.displayName.replace(/_/g,' ');
                 document.body.append(room)
                 
                 data.roomHistory.forEach(history => {
-                    document.querySelector('#chat-log').value += (history.displayName + ': ' + history.message + '\n');
+                    document.querySelector('#chat-log').value += (history.displayName.replace(/_/g,' ') + ': ' + history.message + '\n');
                 })
             }
             if(data.displayNames){
                 let users = document.createElement('div');
                 users.textContent = "Online:"
                 data.displayNames.forEach(name => {
-                    users.textContent += (" " + name)
+                    users.textContent += (" " + name.replace(/_/g,' '))
                 })
                 document.body.append(users)
             }
             if(data.message) {
-                document.querySelector('#chat-log').value += (data.displayName + ': ' + data.message + '\n');
+                document.querySelector('#chat-log').value += (data.displayName.replace(/_/g,' ') + ': ' + data.message + '\n');
             }
             if(data.error) {
                 window.location.pathname = '/astral/'

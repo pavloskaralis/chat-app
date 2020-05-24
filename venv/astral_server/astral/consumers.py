@@ -47,7 +47,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # send display and room name to new client 
         await self.send(text_data=json.dumps({
             'roomHistory': rooms[self.room_name]['room_history'],
-            'diplayName': display_name,
+            'displayName': display_name,
         }))
         # update room with display names
         await self.channel_layer.group_send(

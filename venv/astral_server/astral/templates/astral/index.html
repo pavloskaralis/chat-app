@@ -35,12 +35,11 @@
                 let rooms = Object.keys(data.rooms);
                 for(let i = 0; i < rooms.length; i++){
                     let key = rooms[i];
-                    console.log(data.rooms[key])
                     let room = document.createElement('button');
                     let access = document.createElement('span');
                     let capacity = document.createElement('span');
                     let br = document.createElement('br');
-                    room.textContent = data.rooms[key].roomName;
+                    room.textContent = data.rooms[key].roomName.replace(/_/g,' ');
                     access.textContent = data.rooms[key].roomAccess;
                     capacity.textContent = ' ' + data.rooms[key].roomCapacity + ' of 8';
                     room.onclick = ()=> {
@@ -83,11 +82,11 @@
                     input2.setAttribute('id','display-request-input')
 
                     submit.onclick = () => {
-                        if(input.value.match(/[a-zA-Z\d_]+/)) {
+                        if(input.value.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/)) {
                             lobbySocket.send(JSON.stringify({
                                 'roomName': data.roomName,
                                 'roomPassword': input.value,
-                                'displayName': input2.value,
+                                'displayName': input2.value.replace(/\s/g,'_'),
                                 'requestType': 'private',
                             }));
                         } else {
@@ -119,10 +118,10 @@
                     submit.setAttribute('value','enter')
 
                     submit.onclick = () => {
-                        if(input.value.match(/[a-zA-Z\d_]+/)) {
+                        if(input.value.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/)) {
                             lobbySocket.send(JSON.stringify({
                                 'roomName': data.roomName,
-                                'displayName': input.value,
+                                'displayName': input.value.replace(/\s/g,'_'),
                                 'requestType': 'public',
                             }));
                         } else {
@@ -157,14 +156,14 @@
             var displayName = document.querySelector('#room-display-input').value;
             
             if(
-                roomName.match(/[a-zA-Z\d_]+/) &&
-                displayName.match(/[a-zA-Z\d_]+/) &&
-                (!roomPassword || roomPassword.match(/[a-zA-Z\d_]+/))
+                roomName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
+                displayName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
+                (!roomPassword || roomPassword.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/))
             ) {
                 lobbySocket.send(JSON.stringify({
-                    'roomName': roomName,
+                    'roomName': roomName.replace(/\s/g,'_'),
                     'roomPassword': roomPassword, 
-                    'displayName': displayName, 
+                    'displayName': displayName.replace(/\s/g,'_'), 
                     'requestType': 'start'
                 }));
             } else {

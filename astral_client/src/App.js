@@ -36,7 +36,7 @@ function App() {
         <Route path={'/:hash/:name'} render={()=><div>chat</div>}/>
         <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>
       </Switch>
-      {form && <Form form={form} webSocket={webSocket} error={error}/>}
+      {form && <Form form={form} setForm={setForm} webSocket={webSocket} error={error}/>}
       {error && <div>error</div>}
     </div>
   );

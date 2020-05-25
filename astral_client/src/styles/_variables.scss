@@ -14,14 +14,10 @@ $shadow: 0 0 50px 0 rgba(black, .25);
 $minHeight: 480px; 
 
 $fontSizeA: 64px;
-
 $fontSizeB: 34px;
-
 $fontSizeC: 24px;
-
-$fontSizeD: 24px;
-
-$fontSizeE: 16px;
+$fontSizeD: 20px;
+$fontSizeE: 14px;
 
 .vertical-align {
     display: flex; 
@@ -30,7 +26,7 @@ $fontSizeE: 16px;
 }
 
 $gray: rgb(200,205,210);
-$red: rgb(230,65,55);
+$red: rgb(235,65,55);
 $white: rgb(245,245,245);
 $black: rgb(35,40,45);
 $blue: rgb(55,65,75);

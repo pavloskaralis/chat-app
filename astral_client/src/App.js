@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, matchPath } from 'react-router-dom'
 import './App.scss'
 import Home from './views/Home.js'
+import Form from './views/Form.js'
+
 
 function App() {
 
@@ -10,30 +12,31 @@ function App() {
   const [error, setError] = useState(null);
   const [webSocket, setWebSocket] = useState(null);
 
+  useEffect(()=>{
+    if (!matchPath(window.location.pathname, '/:hash/:name')) {
+      connectLobby();
+    }
+  },[])
+
   const connectLobby = async () => {
     const lobbySocket = await new WebSocket('ws://localhost:8000/ws/astral/');
-    
     lobbySocket.onmessage = function(e) {
         console.log('received')
     }
     setWebSocket(lobbySocket);
-    toggleLobby(!lobby);
   }
 
-  const disconnectLobby = async () => {
-    webSocket.close(); 
-    toggleLobby(!lobby);
-  }
+  
 
   return (
     <div className="app">
       <div  className="app-overlay"></div>
-      <Home setForm={setForm} connectLobby={connectLobby}/>
+      <Home setForm={setForm} toggleLobby={toggleLobby}/>
       <Switch>
         <Route path={'/:hash/:name'} render={()=><div>chat</div>}/>
         <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>
       </Switch>
-      {form && <div>form</div>}
+      {form && <Form form={form} webSocket={webSocket} error={error}/>}
       {error && <div>error</div>}
     </div>
   );

@@ -8,7 +8,6 @@
     background-color: rgba($blue,.95);
     box-shadow: $shadow;
     z-index: 1;
-    
     @media(max-width: $breakpointB) {
         width: 100%;
     }
@@ -40,7 +39,7 @@
         width: 100%;
 
         .start-button, .join-button {
-            margin: 12px auto;
+            margin: 0 auto;
             font-size: $fontSizeC;
             font-family: $fontB;
             text-align: center;
@@ -54,6 +53,7 @@
         .start-button {
             color: $black;
             background-color: $gray;
+            margin-bottom: 24px; 
             &:hover{
                 background-color: lighten($gray, 5%);
             }

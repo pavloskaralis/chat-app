@@ -1,8 +1,8 @@
 import React from 'react'
 import '../styles/Home.scss'
 
-function Home({setForm, connectLobby}) {
-
+function Home({setForm, toggleLobby}) {
+  
   return (
     <div className="home">
       <div className="title-wrap">
@@ -11,7 +11,7 @@ function Home({setForm, connectLobby}) {
       </div>
       <div className="home-button-wrap">
         <span className="start-button" onClick={()=>setForm('start')}>Start a Chat</span>
-        <span className="join-button" onClick={connectLobby}>Join a Chat</span>
+        <span className="join-button" onClick={()=>toggleLobby(true)}>Join a Chat</span>
       </div>
     </div>
   );

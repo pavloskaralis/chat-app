@@ -1,0 +1,30 @@
+@import './variables';
+
+.form-container {
+    @extend .vertical-align;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    background-color: rgba($black,.7);
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    padding: 24px;
+    box-sizing: border-box;
+
+    @media(max-width: $breakpointB) {
+        width: 100%;
+    }
+
+    .form {
+        margin: 0 auto;
+        max-width: $breakpointE;
+        width: 100%;
+        height: 200px;
+        background-color: $gray;
+        border-radius: 24px; 
+        padding: 24px;
+        box-sizing: border-box;
+        box-shadow: $shadow; 
+    }
+}

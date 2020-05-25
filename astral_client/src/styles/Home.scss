@@ -1,0 +1,68 @@
+@import './variables';
+
+.home {
+    @extend .vertical-align;
+    justify-content: space-evenly;
+    width: 50%;
+    height: 100%;
+    background-color: rgba($blue,.95);
+    box-shadow: $shadow;
+
+    @media(max-width: $breakpointB) {
+        width: 100%;
+    }
+
+    .title-wrap {
+        padding: 24px 0;
+        background-color: $black;
+        text-align: center;
+        text-transform: uppercase;
+        font-family: $fontA;
+        font-weight: 600;
+        letter-spacing: 6px;
+        cursor: default;
+        box-shadow: $shadow;
+
+        .title-top {
+            color: $white;
+            font-size: $fontSizeB;
+        }
+        .title-bottom {
+            color: $red;
+            font-size: $fontSizeA;
+        }
+    }
+
+    .home-button-wrap {
+        @extend .vertical-align;
+        justify-content: space-between;
+        width: 100%;
+
+        .start-button, .join-button {
+            margin: 12px auto;
+            font-size: $fontSizeC;
+            font-family: $fontB;
+            text-align: center;
+            width: 240px;
+            padding: 12px 0;
+            border-radius: 24px;
+            cursor: pointer;
+            box-shadow: $shadow;
+        }
+
+        .start-button {
+            color: $black;
+            background-color: $gray;
+            &:hover{
+                background-color: lighten($gray, 5%);
+            }
+        }
+        .join-button {
+            color: $white;
+            background-color: $red;
+            &:hover{
+                background-color: lighten($red, 5%);
+            }
+        }
+    }
+}

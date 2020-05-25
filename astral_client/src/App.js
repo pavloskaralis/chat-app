@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import './App.scss'
+import Home from './views/Home.js'
 
 function App() {
 
-  
   const [lobby, toggleLobby] = useState(false);
   const [form,setForm] = useState(null);
   const [error, setError] = useState(null);
@@ -16,10 +16,15 @@ function App() {
       toggleLobby(!lobby);
   }
 
+  const disconnectLobby = async () => {
+    webSocket.close(); 
+    toggleLobby(!lobby);
+  }
+
   return (
     <div className="app">
       <div  className="app-overlay">
-        <div>home</div>
+        <Home toggleForm={setForm} connectLobby={connectLobby}/>
         <Switch>
           <Route path={'/:hash/:name'} render={<div>chat</div>}/>
           <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>

@@ -1,5 +1,7 @@
 import React from 'react'
 import '../styles/Form.scss'
+import Field from './Field.js'
+import Button from './Button.js'
 
 function Form({form, setForm, webSocket, error}) {
 
@@ -28,21 +30,13 @@ function Form({form, setForm, webSocket, error}) {
         <div className="form-title">{title}</div>
         {fields.inputs.map((input, index)=> {
           return(
-            <div className="field-wrap">
-              <div className="field-top">
-                <div className="field-label">{input}</div>
-                <input className="field-input" type={fields.inputTypes[index]} maxLength="16" />
-              </div>
-              <div className="field-bottom">
-                {fields.descriptions[index]}
-              </div>
-            </div>
+            <Field key={"field" + index} field={fields} index={index}/>
           )
         })}
         {error && <div className="form-error">{error}</div>}
         <div className="form-button-wrap">
-          <div className="cancel-button" onClick={()=> setForm(null)}>cancel</div>
-          <div className="submit-button">submit</div>
+          <Button text="Cancel" className="cancel-button" onClick={()=> setForm(null)}/>
+          <Button text="Submit" className="submit-button" onClick={()=>{}}/>
         </div>
       </div>
     </div>

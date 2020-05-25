@@ -5,6 +5,7 @@
     justify-content: space-evenly;
     width: 50%;
     height: 100%;
+    min-height: $minHeight;
     background-color: rgba($blue,.95);
     box-shadow: $shadow;
     z-index: 1;
@@ -37,33 +38,5 @@
         @extend .vertical-align;
         justify-content: space-between;
         width: 100%;
-
-        .start-button, .join-button {
-            margin: 0 auto;
-            font-size: $fontSizeC;
-            font-family: $fontB;
-            text-align: center;
-            width: 240px;
-            padding: 12px 0;
-            border-radius: 24px;
-            cursor: pointer;
-            box-shadow: $shadow;
-        }
-
-        .start-button {
-            color: $black;
-            background-color: $gray;
-            margin-bottom: 24px; 
-            &:hover{
-                background-color: lighten($gray, 5%);
-            }
-        }
-        .join-button {
-            color: $white;
-            background-color: $red;
-            &:hover{
-                background-color: lighten($red, 5%);
-            }
-        }
     }
 }

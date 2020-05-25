@@ -1,5 +1,6 @@
 import React from 'react'
 import '../styles/Home.scss'
+import Button from '../components/Button.js';
 
 function Home({setForm, toggleLobby}) {
   
@@ -10,8 +11,8 @@ function Home({setForm, toggleLobby}) {
         <div className="title-bottom">astral</div>
       </div>
       <div className="home-button-wrap">
-        <span className="start-button" onClick={()=>setForm('start')}>Start a Chat</span>
-        <span className="join-button" onClick={()=>toggleLobby(true)}>Join a Chat</span>
+        <Button text="Start a Chat" className="start-button" onClick={()=>setForm('start')}/>
+        <Button text="Join a Chat" className="join-button" onClick={()=>toggleLobby(true)}/>
       </div>
     </div>
   );

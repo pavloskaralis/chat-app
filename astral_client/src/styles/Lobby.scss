@@ -1,0 +1,18 @@
+@import './variables';
+
+.lobby{
+    @extend .vertical-align;
+    justify-content: center;
+    width: 50%;
+    height: 100%;   
+    min-height: $minHeight;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    padding: 24px;
+    box-sizing: border-box;
+
+    @media(max-width: $breakpointB) {
+        width: 100%;
+    }
+}

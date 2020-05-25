@@ -1,0 +1,48 @@
+@import './variables';
+
+.start-button, .join-button, .cancel-button, .submit-button {
+    margin: 0 auto;
+    font-size: $fontSizeC;
+    font-family: $fontB;
+    text-align: center;
+    width: 240px;
+    padding: 12px 0;
+    border-radius: 24px;
+    cursor: pointer;
+    box-shadow: $shadow;
+}
+
+.cancel-button, .submit-button {
+    width: 120px;
+}
+
+.start-button {
+    color: $black;
+    background-color: $gray;
+    margin-bottom: 24px; 
+    &:hover{
+        background-color: lighten($gray, 5%);
+    }
+}
+.join-button {
+    color: $white;
+    background-color: $red;
+    &:hover{
+        background-color: lighten($red, 5%);
+    }
+}
+
+.cancel-button {
+    color: $white;
+    background-color: $blue;
+    &:hover{
+        background-color: lighten($blue, 5%);
+    }
+}
+.submit-button {
+    color: $white;
+    background-color: $black;
+    &:hover{
+        background-color: lighten($black, 5%);
+    }
+}

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Route, Switch, matchPath } from 'react-router-dom'
 import './App.scss'
 import Home from './views/Home.js'
-import Form from './views/Form.js'
+import Form from './components/Form.js'
+import Lobby from './views/Lobby.js'
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
       <Home setForm={setForm} toggleLobby={toggleLobby}/>
       <Switch>
         <Route path={'/:hash/:name'} render={()=><div>chat</div>}/>
-        <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>
+        <Route path={'/'} render={()=> lobby ? <Lobby/> : <></>}/>
       </Switch>
       {form && <Form form={form} setForm={setForm} webSocket={webSocket} error={error}/>}
       {error && <div>error</div>}

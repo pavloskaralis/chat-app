@@ -4,7 +4,8 @@
     @extend .vertical-align;
     justify-content: center;
     width: 50%;
-    height: 100%;
+    height: 100%;   
+    min-height: $minHeight;
     background-color: rgba($black,.7);
     position: absolute;
     right: 0;
@@ -29,65 +30,19 @@
         .form-title {
             font-family: $fontA;
             font-size: $fontSizeB;
-            margin-bottom: 12px;
+            margin-bottom: 24px;
             text-align: center;
             // text-transform: uppercase;
             font-weight: 600;
             color: $black;
         }
 
-        .field-wrap {
-            @extend .vertical-align;
-            width: 100%;
-            margin-bottom: 12px;
-            // background: red; 
-            .field-top{
-                display: flex;
-                margin-bottom: 6px;
-                .field-label{
-                    @extend .vertical-align;
-                    justify-content: flex-end;
-                    width: 50%;
-                    font-size: $fontSizeD;
-                    font-family: $fontA;
-                    text-transform: uppercase;
-                    font-weight: 600;
-                    color: $black;
-                    line-height: 16px;
-                    cursor: default;
-                }
-                .field-input{
-                    @extend .vertical-align;
-                    justify-content: flex-end;
-                    line-height: 0;
-                    width: 50%;
-                    height: 40px;
-                    border: none;
-                    outline: none;
-                    padding: 0 12px;
-                    box-sizing: border-box;
-                    font-family: $fontB;
-                    font-size: $fontSizeD;
-                    color: $black;
-                    box-shadow: inset 0 0 2.5px 0 rgba(black, 0.5);
-                }
-            }
-            .field-bottom{
-                color: $blue;
-                font-family: $fontA;
-                font-size: $fontSizeE;
-                cursor: default;
-            }
-        }
-
         .form-error {
             @extend .vertical-align;
+            margin-top: 24px;
             text-align: center;
-            height: 64px;
-            // background: blue; 
             font-family: $fontA;
             font-size: $fontSizeD;
-            // text-transform: uppercase;
             font-weight: 600;
             color: $red;
             cursor: default;
@@ -98,34 +53,6 @@
             display: flex;
             justify-content: space-evenly;
             margin-top: 24px;
-
-            .cancel-button, .submit-button {
-                margin: 0 auto;
-                font-size: $fontSizeC;
-                font-family: $fontB;
-                text-align: center;
-                width: 120px;
-                padding: 12px 0;
-                border-radius: 24px;
-                cursor: pointer;
-                box-shadow: $shadow;
-                text-transform: capitalize;
-            }
-
-            .cancel-button {
-                color: $white;
-                background-color: $blue;
-                &:hover{
-                    background-color: lighten($blue, 5%);
-                }
-            }
-            .submit-button {
-                color: $white;
-                background-color: $black;
-                &:hover{
-                    background-color: lighten($black, 5%);
-                }
-            }
         }
     }
 }

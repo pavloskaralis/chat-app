@@ -11,9 +11,13 @@ function App() {
   const [webSocket, setWebSocket] = useState(null);
 
   const connectLobby = async () => {
-      const lobbySocket = await new WebSocket('ws://' + 'localhost:8000'+ '/ws/astral/');
-      setWebSocket(lobbySocket);
-      toggleLobby(!lobby);
+    const lobbySocket = await new WebSocket('ws://localhost:8000/ws/astral/');
+    
+    lobbySocket.onmessage = function(e) {
+        console.log('received')
+    }
+    setWebSocket(lobbySocket);
+    toggleLobby(!lobby);
   }
 
   const disconnectLobby = async () => {

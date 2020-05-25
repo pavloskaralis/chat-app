@@ -11,7 +11,7 @@ function Home({setForm, connectLobby}) {
       </div>
       <div className="home-button-wrap">
         <span className="start-button" onClick={()=>setForm('start')}>Start a Chat</span>
-        <span className="join-button">Join a Chat</span>
+        <span className="join-button" onClick={connectLobby}>Join a Chat</span>
       </div>
     </div>
   );

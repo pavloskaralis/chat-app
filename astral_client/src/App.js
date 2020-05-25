@@ -23,15 +23,14 @@ function App() {
 
   return (
     <div className="app">
-      <div  className="app-overlay">
-        <Home toggleForm={setForm} connectLobby={connectLobby}/>
-        <Switch>
-          <Route path={'/:hash/:name'} render={<div>chat</div>}/>
-          <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>
-        </Switch>
-        {form && <div>form</div>}
-        {error && <div>error</div>}
-      </div>
+      <div  className="app-overlay"></div>
+      <Home setForm={setForm} connectLobby={connectLobby}/>
+      <Switch>
+        <Route path={'/:hash/:name'} render={()=><div>chat</div>}/>
+        <Route path={'/'} render={()=> lobby ? <div>lobby</div> : <></>}/>
+      </Switch>
+      {form && <div>form</div>}
+      {error && <div>error</div>}
     </div>
   );
 }

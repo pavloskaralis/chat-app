@@ -13,10 +13,12 @@ body {
     background-position: 80% 0%;
     display: flex;
     min-height: $minHeight;
+
+    .app-overlay {
+        width: 100%;
+        height: 100%;
+        background-color: rgba($white, .5);
+        position: absolute;
+    }
 }
 
-.app-overlay {
-    width: 100%;
-    height: 100%;
-    background-color: rgba($white, .5);
-}

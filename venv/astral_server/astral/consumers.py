@@ -249,7 +249,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             room_password = text_data_json['roomPassword']
             display_name = text_data_json['displayName']
             #if room name not taken; prevent lobby group name being taken
-            if room_name and display_name and room_name not in rooms and room_name != 'lobby':
+            if room_name and display_name and room_name not in rooms:
                 room_hash = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
                 #add room to rooms list            
                 rooms.update({
@@ -277,11 +277,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if conditions not met
             else:
                 # Send error message to room creator
-                if room_name == 'lobby':
-                    await self.send(text_data=json.dumps({
-                        'error': 'room name not allowed'
-                    }))
-                elif not(room_name):
+                if not(room_name):
                     await self.send(text_data=json.dumps({
                         'error': 'must enter a room name'
                     }))
@@ -289,7 +285,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                     await self.send(text_data=json.dumps({
                         'error': 'must enter a display name'
                     }))
-                elif room_name and room_name != 'lobby':
+                elif room_name:
                     await self.send(text_data=json.dumps({
                         'error': 'room name taken'
                     }))

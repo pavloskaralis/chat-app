@@ -7,7 +7,8 @@
     height: 100%;
     background-color: rgba($blue,.95);
     box-shadow: $shadow;
-
+    z-index: 1;
+    
     @media(max-width: $breakpointB) {
         width: 100%;
     }

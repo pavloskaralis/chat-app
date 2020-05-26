@@ -2,7 +2,7 @@
 
 .lobby{
     @extend .vertical-align;
-    justify-content: center;
+    justify-content: flex-start;
     width: 50%;
     height: 100%;   
     min-height: $minHeight;
@@ -11,8 +11,20 @@
     z-index: 1;
     padding: 24px;
     box-sizing: border-box;
+    background-color: rgba($black, .95);
 
     @media(max-width: $breakpointB) {
         width: 100%;
+    }
+
+    .lobby-exit-wrap {
+        box-sizing: border-box;
+        width: 100%; 
+        right: 0;
+        top: 0;
+        padding: 12px;
+        display: flex;
+        justify-content: flex-end;
+        position: absolute;
     }
 }

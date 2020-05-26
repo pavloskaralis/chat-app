@@ -159,7 +159,7 @@
                 roomName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
                 displayName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
                 (!roomPassword || roomPassword.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/))
-            ) {
+            ) { 
                 lobbySocket.send(JSON.stringify({
                     'roomName': roomName.replace(/\s/g,'_'),
                     'roomPassword': roomPassword, 

@@ -25,7 +25,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
     <div className="toggle-container">
       {toggles.map((toggle)=> {
         return(
-          <Toggle toggle={toggle} />
+          <Toggle key={toggle.text} toggle={toggle} />
         )
       })}
     </div>     

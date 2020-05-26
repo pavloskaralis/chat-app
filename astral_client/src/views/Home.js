@@ -11,8 +11,8 @@ function Home({setForm, toggleLobby}) {
         <div className="title-bottom">astral</div>
       </div>
       <div className="home-button-wrap">
-        <Button text="Start a Chat" className="start-button" onClick={()=>setForm('start')}/>
-        <Button text="Join a Chat" className="join-button" onClick={()=>toggleLobby(true)}/>
+        <Button text="Start Chat" className="start-button" onClick={()=>setForm('start')}/>
+        <Button text="Join Chat" className="join-button" onClick={()=>toggleLobby(true)}/>
       </div>
     </div>
   );

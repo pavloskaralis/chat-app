@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Search.scss'
 
-function Search({}) {
+function Search() {
   return (
     <div className="search">
         <input className="search-input"/>

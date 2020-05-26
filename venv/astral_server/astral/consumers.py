@@ -287,14 +287,14 @@ class LobbyConsumer(AsyncWebsocketConsumer):
                     }))
                 elif room_name:
                     await self.send(text_data=json.dumps({
-                        'error': 'room name taken'
+                        'error': 'Room name has been taken.'
                     }))
 
     # Receive message from room group
     async def lobby_update(self, event):
         updated_rooms = event['rooms_info']
 
-        # Send message to WebSocket
+        # Send message to WebSocket 
         await self.send(text_data=json.dumps({
             'rooms': updated_rooms,
         }))

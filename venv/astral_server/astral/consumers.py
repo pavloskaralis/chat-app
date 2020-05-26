@@ -40,7 +40,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         #     rooms[self.room_name]['display_names'].append('unknown')
         display_name = rooms[self.room_name]['display_names'][display_index]
 
-
         self.display_name = display_name
         # # add to capacity count
         rooms_info[self.room_name]['roomCapacity'] += 1  

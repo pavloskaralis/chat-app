@@ -31,7 +31,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
     </div>     
 
     <div className="room-container">
-      {rooms.map((room) => {
+      {rooms && rooms.map((room) => {
         return(
           <div className="room">
             <div className="room-name"></div>

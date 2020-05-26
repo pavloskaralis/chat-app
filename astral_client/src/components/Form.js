@@ -3,7 +3,7 @@ import '../styles/Form.scss'
 import Field from './Field.js'
 import Button from './Button.js'
 
-function Form({form, setForm, webSocket, error, setError}) {
+function Form({form, setForm, lobbySocket, error, setError}) {
 
   const [matchError, setMatchError] = useState(null);
 
@@ -48,22 +48,22 @@ function Form({form, setForm, webSocket, error, setError}) {
     setError(null);
     setMatchError(null);
     if (
-      roomName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
-      displayName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/) &&
-      (!roomPassword || roomPassword.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/))
+      roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/) &&
+      displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/) &&
+      (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/))
     ){
-      webSocket.send(JSON.stringify({
+      lobbySocket.send(JSON.stringify({
           'roomName': roomName.replace(/\s/g,'_'),
           'roomPassword': roomPassword, 
           'displayName': displayName.replace(/\s/g,'_'), 
           'requestType': 'start'
       }));
     } else {
-      if(!roomName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/)) {
+      if(!roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/)) {
         setMatchError('Room name must only contain letters, numbers, and enclosed spaces.')
       } else if (roomPassword && !roomPassword.match(/^[a-zA-Z\d]+$/)) {
         setMatchError('Password must only contain letters and numbers.')
-      } else if (!displayName.match(/^[^\s](?!.*[\s]{2,})[a-zA-Z\d\s]+[^\s]$/)) {
+      } else if (!displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/)) {
         setMatchError('Display name must only contain letters, numbers, and enclosed spaces.')
       }
     }

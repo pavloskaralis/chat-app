@@ -6,10 +6,19 @@
     background: green;
     justify-content: center;
     margin: 0 auto;
-    width: 100%;
-    max-width: 360px;
+    width: 60%;
+    max-width: 500px;
     border-radius: 24px;
     position: relative;
+
+    @media (max-height: 800px) {
+        max-width: 360px;
+    }
+
+    // @media (max-width: $breakpointE) and (max-height: 800px) {
+    //     max-width: 240px;
+    // }
+
     .search-input {
         height: 50px;
         background-color: $white;  

@@ -2,6 +2,8 @@ import React from 'react'
 import '../styles/Lobby.scss'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
+import Toggle from '../components/Toggle.js'
+
 function Lobby({toggleForm, toggleLobby, rooms}) {
 
   const toggles = [
@@ -20,13 +22,10 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
       </div>
       
 
-    <div className="toggle-wrap">
-      {toggles.map((toggle,index)=> {
+    <div className="toggle-container">
+      {toggles.map((toggle)=> {
         return(
-          <div className={toggle.className} onClick={toggle.onClick}>
-            <div className="toggle-button"></div>
-            <div className="toggle-text">{toggle.text}</div>
-          </div>
+          <Toggle toggle={toggle} />
         )
       })}
     </div>     

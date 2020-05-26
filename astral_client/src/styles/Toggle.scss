@@ -1,0 +1,49 @@
+@import './variables';
+
+.toggle-left {
+    width: 50%;
+}
+
+.toggle-right {
+    width: 25%;
+}
+
+.toggle-left, .toggle-right {    
+    .toggle-button {
+        display: inline-flex;
+        cursor: pointer;
+
+        &:hover {
+            .toggle-text {
+                color: $red; 
+            }
+        }
+
+        .toggle-icon {
+            @extend .vertical-align; 
+            color: $red;
+            font-family: $fontA;
+            font-size: $fontSizeD;
+
+            .triangle-top, .triangle-bottom {
+                text-align: center;
+                padding: 0 2px;
+                line-height: 6px;
+            }
+
+            .triangle-top {
+                transform: rotate(-180deg);
+            }
+        }
+
+        .toggle-text {
+            @extend .vertical-align;
+            padding: 0 2px;
+            color: $white;
+            font-family: $fontB;
+            font-size: $fontSizeC;
+            text-transform: capitalize;
+            transition: color .25s; 
+        }
+    }   
+}

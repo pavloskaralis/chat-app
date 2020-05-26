@@ -12,17 +12,16 @@
     box-sizing: border-box;
     background-color: rgba($black, .95);
     overflow: auto;
-
+    padding: 0 24px; 
     @media(max-width: $breakpointB) {
         width: 100%;
     }
 
     .lobby-exit-wrap {
-        box-sizing: border-box;
         width: 100%; 
         right: 0;
         top: 0;
-        padding: 12px;
+        padding: 12px 9px;
         display: flex;
         justify-content: flex-end;
         position: absolute;
@@ -33,14 +32,62 @@
         display: flex;
         justify-content: center;
         width: 100%;
-        height: 100%;
-        max-height: 150px;
+        height: calc((100% - 290px)/3);
+        // max-height: 150px;
+        // min-height: 98px;
     }
 
-    .toggle-wrap {
+    .toggle-container {
         display: flex;
-        background: green; 
-        // min-height: 167px;
+        width: 100%;
+
+        .toggle-left {
+            width: 50%;
+        }
+
+        .toggle-right {
+            width: 25%;
+        }
+
+        .toggle-left, .toggle-right {    
+            .toggle-button {
+                display: inline-flex;
+                cursor: pointer;
+
+                &:hover {
+                    .toggle-text {
+                        color: $red; 
+                    }
+                }
+
+                .toggle-icon {
+                    @extend .vertical-align; 
+                    color: $red;
+                    font-family: $fontA;
+                    font-size: $fontSizeD;
+    
+                    .triangle-top, .triangle-bottom {
+                        text-align: center;
+                        padding: 0 2px;
+                        line-height: 6px;
+                    }
+    
+                    .triangle-top {
+                        transform: rotate(-180deg);
+                    }
+                }
+    
+                .toggle-text {
+                    @extend .vertical-align;
+                    padding: 0 2px;
+                    color: $white;
+                    font-family: $fontB;
+                    font-size: $fontSizeC;
+                    text-transform: capitalize;
+                    transition: color .25s; 
+                }
+            }   
+        }
     }
 
     .room-container {

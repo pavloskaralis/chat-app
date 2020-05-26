@@ -3,7 +3,7 @@ import '../styles/Exit.scss'
 
 function Exit({onClick}) {
   return (
-    <div className="exit" onClick={onClick}>X</div>
+    <div className="exit" onClick={onClick}>&#xd7;</div>
   );
 }
 

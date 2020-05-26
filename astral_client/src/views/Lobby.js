@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Lobby.scss'
 import Exit from '../components/Exit.js'
-
+import Search from '../components/Search.js'
 function Lobby({toggleForm, toggleLobby, rooms}) {
 
   const toggles = [
@@ -16,12 +16,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
       </div>
       
       <div className="lobby-search-wrap">
-        <div className="search">
-          <input className="search-left"/>
-          <div className="search-right">
-            <div className="search-icon"></div>
-          </div>
-        </div>
+        <Search />
       </div>
       
 

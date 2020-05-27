@@ -40,6 +40,8 @@
     .toggle-container {
         display: flex;
         width: 100%;
+        padding-bottom: calc( (((100vh - 290px)/3) - 50px)/2 );
+        margin-bottom: 4px;
     }
 
     .room-container {

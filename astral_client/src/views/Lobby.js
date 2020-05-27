@@ -17,10 +17,12 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
 
   useEffect(() => {
     const roomContainer = document.getElementById("room-container");
-    roomContainer.addEventListener('scroll', () => {
-      if (roomContainer.scrollTop > 0 && !shadow) {
+    const toggleContainer = document.getElementById("toggle-container");
+    roomContainer.addEventListener("scroll", () => {
+      const shadowCheck = getComputedStyle(toggleContainer).boxShadow !== "none"
+      if (roomContainer.scrollTop > 0 && !shadowCheck) {
         toggleShadow(true)
-      } else if (roomContainer.scrollTop < 1 ) {
+      } else if (roomContainer.scrollTop < 1 && shadowCheck ) {
         toggleShadow(false)
       }
     })
@@ -37,7 +39,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
       </div>
       
 
-      <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"}>
+      <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"} id="toggle-container">
         {toggles.map((toggle)=> {
           return(
             <Toggle key={toggle.text} toggle={toggle} />

@@ -10,7 +10,7 @@ function Field({field, value, index, onChange}) {
               id={field.inputs[index]}
               className="field-input" 
               type={field.inputTypes[index]} 
-              maxLength="16" 
+              maxLength="12" 
               value={value}
               onChange={onChange}
             />

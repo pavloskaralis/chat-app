@@ -23,22 +23,22 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
       </div>
       
 
-    <div className="toggle-container">
-      {toggles.map((toggle)=> {
-        return(
-          <Toggle key={toggle.text} toggle={toggle} />
-        )
-      })}
-    </div>     
+      <div className="toggle-container">
+        {toggles.map((toggle)=> {
+          return(
+            <Toggle key={toggle.text} toggle={toggle} />
+          )
+        })}
+      </div>     
 
-    <div className="room-container">
-      {rooms.map((room) => {
-        return(
-          <Room room={room}/>
-        )
-      })}
-    </div> 
-      
+      <div className="room-container">
+        {rooms.length === 0 && <div className="no-rooms">No rooms created.</div>}
+        {rooms.map((room) => {
+          return(
+            <Room room={room}/>
+          )
+        })}
+      </div>   
     </div>
   );
 }

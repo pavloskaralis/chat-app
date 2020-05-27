@@ -12,6 +12,24 @@
     box-sizing: border-box;
     background-color: rgba($black, .95);
     overflow: auto;
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: $blue;
+    }
+    
+    ::-webkit-scrollbar {
+        width: 12px;
+        background-color: $blue;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: $white;
+    }
+    
     @media(max-width: $breakpointB) {
         width: 100%;
     }
@@ -34,6 +52,7 @@
         height: calc((100% - 290px)/3);
         padding: 0 24px; 
         box-sizing: border-box;
+        flex-shrink: 0;
     }
 
     .toggle-container {
@@ -43,9 +62,23 @@
         box-sizing: border-box;
         padding-bottom: calc( (((100vh - 290px)/3) - 50px)/4 - 4px );
         margin-bottom: 4px;
+        box-shadow: 0 5vh 50px -1vh rgba(black, .35);
+       
     }
 
     .room-container {
         width: 100%;
+        overflow-y: scroll;
+        height: 100%;
+
+        .no-rooms {
+            @extend .vertical-align; 
+
+            height: 100%;
+            text-align: center;
+            font-family: $fontA;
+            font-size: $fontSizeC;
+            color: $gray; 
+        }
     }
 }

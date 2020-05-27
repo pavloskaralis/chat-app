@@ -16,7 +16,7 @@
 
         &:hover {
             .toggle-text {
-                color: $red; 
+                color: darken($white, 10%); 
             }
         }
 

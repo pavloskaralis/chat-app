@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import '../styles/Lobby.scss'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
@@ -7,11 +7,25 @@ import Room from '../components/Room.js'
 
 function Lobby({toggleForm, toggleLobby, rooms}) {
 
+  const [shadow, toggleShadow] = useState(false)
+
   const toggles = [
     {text: "name", className: "toggle-left", onClick: ()=>{}},
     {text: "users", className: "toggle-right", onClick: ()=>{}},
     {text: "access", className: "toggle-right", onClick: ()=>{}}
   ]
+
+  useEffect(() => {
+    const roomContainer = document.getElementById("room-container");
+    roomContainer.addEventListener('scroll', () => {
+      if (roomContainer.scrollTop > 0 && !shadow) {
+        toggleShadow(true)
+      } else if (roomContainer.scrollTop < 1 ) {
+        toggleShadow(false)
+      }
+    })
+  },[])
+
   return (
     <div className="lobby">
       <div className="lobby-exit-wrap">
@@ -23,7 +37,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
       </div>
       
 
-      <div className="toggle-container">
+      <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"}>
         {toggles.map((toggle)=> {
           return(
             <Toggle key={toggle.text} toggle={toggle} />
@@ -31,11 +45,11 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
         })}
       </div>     
 
-      <div className="room-container">
+      <div className="room-container" id="room-container">
         {rooms.length === 0 && <div className="no-rooms">No rooms created.</div>}
         {rooms.map((room) => {
           return(
-            <Room room={room}/>
+            <Room key={room.roomName }room={room}/>
           )
         })}
       </div>   

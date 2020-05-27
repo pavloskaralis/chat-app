@@ -11,7 +11,6 @@
     z-index: 1;
     box-sizing: border-box;
     background-color: rgba($black, .95);
-    overflow: auto;
 
     ::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -61,24 +60,28 @@
         padding: 0 24px; 
         box-sizing: border-box;
         padding-bottom: calc( (((100vh - 290px)/3) - 50px)/4 - 4px );
-        margin-bottom: 4px;
+        margin-bottom: 4px;       
+    }
+
+    .scroll-shadow {
         box-shadow: 0 5vh 50px -1vh rgba(black, .35);
-       
     }
 
     .room-container {
         width: 100%;
-        overflow-y: scroll;
+        overflow-y: auto;
         height: 100%;
 
         .no-rooms {
-            @extend .vertical-align; 
+            @extend .vertical-align;
 
+            cursor: default;
             height: 100%;
             text-align: center;
             font-family: $fontA;
             font-size: $fontSizeC;
             color: $gray; 
         }
+
     }
 }

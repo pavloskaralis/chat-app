@@ -4,11 +4,12 @@
     width: 50%;
 }
 
-.toggle-right {
-    width: 25%;
+ .toggle-right {
+    width: calc(25% + 48px);
 }
 
-.toggle-left, .toggle-right {    
+
+.toggle-left,  .toggle-right {    
     .toggle-button {
         display: inline-flex;
         cursor: pointer;

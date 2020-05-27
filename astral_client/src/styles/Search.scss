@@ -47,6 +47,7 @@
         position: absolute;
         right: 6px;
         cursor: pointer;
+        transition: background-color $transition; 
 
         &:hover {
             background-color: darken($white, 10%);

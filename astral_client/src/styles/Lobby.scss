@@ -12,7 +12,6 @@
     box-sizing: border-box;
     background-color: rgba($black, .95);
     overflow: auto;
-    padding: 0 24px; 
     @media(max-width: $breakpointB) {
         width: 100%;
     }
@@ -33,20 +32,20 @@
         justify-content: center;
         width: 100%;
         height: calc((100% - 290px)/3);
-        // max-height: 150px;
-        // min-height: 98px;
+        padding: 0 24px; 
+        box-sizing: border-box;
     }
 
     .toggle-container {
         display: flex;
         width: 100%;
-        padding-bottom: calc( (((100vh - 290px)/3) - 50px)/2 );
+        padding: 0 24px; 
+        box-sizing: border-box;
+        padding-bottom: calc( (((100vh - 290px)/3) - 50px)/4 - 4px );
         margin-bottom: 4px;
     }
 
     .room-container {
         width: 100%;
-        // height: 10%;
-        background: red; 
     }
 }

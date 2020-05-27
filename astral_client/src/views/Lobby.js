@@ -3,6 +3,7 @@ import '../styles/Lobby.scss'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
 import Toggle from '../components/Toggle.js'
+import Room from '../components/Room.js'
 
 function Lobby({toggleForm, toggleLobby, rooms}) {
 
@@ -33,12 +34,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
     <div className="room-container">
       {rooms.map((room) => {
         return(
-          <div className="room">
-            <div className="room-name">{room.roomName}</div>
-            <div className="room-capacity">{room.roomCapacity + " / 8"}</div>
-            <div className="room-access">{room.roomAccess}</div>
-            <div className="connect-button">connect</div>
-          </div>
+          <Room room={room}/>
         )
       })}
     </div> 

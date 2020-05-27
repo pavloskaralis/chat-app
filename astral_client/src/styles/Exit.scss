@@ -11,6 +11,7 @@
     height: 42px;
     border-radius: 42px;
     cursor: pointer;
+    transition: background-color $transition; 
 
     &:hover {
         background-color: lighten($black,10%);

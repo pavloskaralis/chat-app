@@ -10,7 +10,7 @@ function Error({error, setError}) {
         <div className="error-title">Error:</div>
         <div className="error-message">{error}</div>
         <div className="error-button-wrap">
-          <Button text="Close" className="cancel-button" onClick={()=> setError(null)}/>
+          <Button text="Close" className="close-button" onClick={()=> setError(null)}/>
         </div>
       </div>
     </div>

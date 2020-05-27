@@ -25,7 +25,7 @@ function App() {
   const connectLobby = async () => {
     const webSocket = await new WebSocket('ws://localhost:8000/ws/astral/');
 
-    webSocket.onmessage = (e) => {
+    webSocket.onmessage = async (e) => {
       console.log('lobby connected')
       const data = JSON.parse(e.data); 
       //when socket returns room list, generate room nodes
@@ -33,9 +33,14 @@ function App() {
         //data.rooms is object so that it could be more easily updated on backend
         const roomKeys = Object.keys(data.rooms);
         const roomsArray = [];
-        for(let i; i < roomKeys.length; i++){
-          rooms.roomsArray.push(data.rooms[roomKeys[i]]);
+        const populate = () => {
+          for(let i = 0; i < roomKeys.length; i++){
+            roomsArray.push(data.rooms[roomKeys[i]]);
+          } 
         }
+        await populate(); 
+        console.log(roomsArray)
+
         updateRooms(roomsArray);
       }
 
@@ -152,6 +157,7 @@ function App() {
         <Route path={'/'} render={()=> lobby ? <Lobby rooms={rooms} setForm={setForm} toggleLobby={toggleLobby}/> : <></>}/>
       </Switch>
       {form && <Form form={form} setForm={setForm} lobbySocket={lobbySocket} error={error} setError={setError}/>}
+      {/* no error component when form displays error */}
       {error && !form && <Error error={error} setError={setError}/>}
     </div>
   );

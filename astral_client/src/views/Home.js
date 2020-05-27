@@ -11,8 +11,18 @@ function Home({setForm, toggleLobby, setError}) {
         <div className="title-bottom">astral</div>
       </div>
       <div className="home-button-wrap">
-        <Button text="Start Chat" className="start-button" onClick={()=>{setForm('start'); setError(null)}}/>
-        <Button text="Join Chat" className="join-button" onClick={()=>{toggleLobby(true); setError(null)}}/>
+        <Button 
+          text="Start Chat" 
+          className="start-button" 
+          onClick={()=>{setForm('start'); 
+          setError(null)}}
+        />
+        <Button 
+          text="Join Chat" 
+          className="join-button" 
+          onClick={()=>{toggleLobby(true); 
+          setError(null)}}
+        />
       </div>
     </div>
   );

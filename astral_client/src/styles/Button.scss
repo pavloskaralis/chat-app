@@ -1,6 +1,6 @@
 @import './variables';
 
-.start-button, .join-button, .cancel-button, .submit-button {
+.start-button, .join-button, .cancel-button, .submit-button, .close-button {
     margin: 0 auto;
     font-size: $fontSizeC;
     font-family: $fontB;
@@ -12,7 +12,7 @@
     box-shadow: $shadow;
 }
 
-.cancel-button, .submit-button {
+.cancel-button, .submit-button, .close-button {
     width: 120px;
 }
 
@@ -39,7 +39,7 @@
         background-color: lighten($blue, 5%);
     }
 }
-.submit-button {
+.submit-button, .close-button {
     color: $white;
     background-color: $black;
     &:hover{

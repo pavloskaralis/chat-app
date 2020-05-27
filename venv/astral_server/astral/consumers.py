@@ -27,17 +27,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # if invalid credentials send error to client
         if rooms[self.room_name]['room_hash'] != self.url_hash :
             await self.send(text_data=json.dumps({
-                'error': 'invalid authentication'
+                'error': 'Invalid authentication.'
             }))
         if rooms_info[self.room_name]['roomCapacity'] >= 8 :
             await self.send(text_data=json.dumps({
-                'error': 'room capacity reached'
+                'error': 'Room is at full capacity.'
+            }))
+        if len(rooms[self.room_name]['display_names']) <= rooms_info[self.room_name]['roomCapacity']:
+            await self.send(text_data=json.dumps({
+                'error': 'No display name provided.'
             }))
         #assign display name
         display_index = rooms_info[self.room_name]['roomCapacity']
-        #prevent refresh kick
-        # if len(rooms[self.room_name]['display_names']) <= rooms_info[self.room_name]['roomCapacity']:
-        #     rooms[self.room_name]['display_names'].append('unknown')
+
         display_name = rooms[self.room_name]['display_names'][display_index]
 
         self.display_name = display_name

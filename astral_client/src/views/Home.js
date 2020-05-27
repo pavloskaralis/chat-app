@@ -2,7 +2,7 @@ import React from 'react'
 import '../styles/Home.scss'
 import Button from '../components/Button.js';
 
-function Home({setForm, toggleLobby}) {
+function Home({setForm, toggleLobby, setError}) {
   
   return (
     <div className="home">
@@ -11,8 +11,8 @@ function Home({setForm, toggleLobby}) {
         <div className="title-bottom">astral</div>
       </div>
       <div className="home-button-wrap">
-        <Button text="Start Chat" className="start-button" onClick={()=>setForm('start')}/>
-        <Button text="Join Chat" className="join-button" onClick={()=>toggleLobby(true)}/>
+        <Button text="Start Chat" className="start-button" onClick={()=>{setForm('start'); setError(null)}}/>
+        <Button text="Join Chat" className="join-button" onClick={()=>{toggleLobby(true); setError(null)}}/>
       </div>
     </div>
   );

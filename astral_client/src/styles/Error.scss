@@ -1,6 +1,6 @@
 @import './variables';
 
-.form-container {
+.error-container {
     @extend .vertical-align;
     justify-content: center;
     width: 50%;
@@ -17,7 +17,7 @@
         width: 100%;
     }
 
-    .form {
+    .error {
         margin: 0 auto;
         max-width: $breakpointE;
         width: 100%;
@@ -27,7 +27,7 @@
         box-sizing: border-box;
         box-shadow: $shadow; 
 
-        .form-title {
+        .error-title {
             font-family: $fontA;
             font-size: $fontSizeB;
             margin-bottom: 24px;
@@ -37,18 +37,28 @@
             cursor: default;
         }
 
-        .form-error {
+        .error-message {
             @extend .vertical-align;
             margin-top: 24px;
             text-align: center;
             font-family: $fontA;
-            font-size: $fontSizeE;
+            font-size: $fontSizeD;
             font-weight: 600;
-            color: $red;
+            // text-transform: uppercase;
+            color: $blue;
             cursor: default;
+
+            // margin-bottom: 24px;
+            // text-align: center;
+            // font-size: $fontSizeD;
+            // font-family: $fontA;
+            // text-transform: uppercase;
+            // font-weight: 600;
+            // color: $black;
+            // cursor: default;
         }
 
-        .form-button-wrap{
+        .error-button-wrap{
             width: 100%;
             display: flex;
             justify-content: space-evenly;

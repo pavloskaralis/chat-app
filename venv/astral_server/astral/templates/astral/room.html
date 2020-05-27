@@ -58,6 +58,7 @@
                 document.querySelector('#chat-log').value += (data.displayName.replace(/_/g,' ') + ': ' + data.message + '\n');
             }
             if(data.error) {
+                console.log(data.error)
                 window.location.pathname = '/astral/'
             }
         };

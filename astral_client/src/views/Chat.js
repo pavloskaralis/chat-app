@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { matchPath } from 'react-router-dom'
 import '../styles/Chat.scss'
+import history from '../history.js'
 
-function Chat({connectLobby}) {
+function Chat({connectLobby,setError}) {
     
     const [chatSocket, setChatSocket] = useState(null);
 
@@ -18,13 +19,20 @@ function Chat({connectLobby}) {
             + '/'
         );
 
+
         webSocket.onmessage = (e) => {
             console.log('chat connected')
             const data = JSON.parse(e.data); 
+            console.log('data:',data)
+            if(data.error){
+                setError(data.error);
+                webSocket.close();
+            }
         }
 
         webSocket.onclose = (e) => {
             console.error('chat connection closed');
+            history.push('/')
             connectLobby(); 
         };
 

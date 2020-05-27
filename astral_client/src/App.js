@@ -5,8 +5,9 @@ import Home from './views/Home.js'
 import Form from './components/Form.js'
 import Lobby from './views/Lobby.js'
 import Chat from './views/Chat.js'
-import history from './history.js'
+import Error from './components/Error.js'
 
+import history from './history.js'
 function App() {
 
   const [lobby, toggleLobby] = useState(false);
@@ -145,13 +146,13 @@ function App() {
   return (
     <div className="app">
       <div  className="app-overlay"></div>
-      <Home setForm={setForm} toggleLobby={toggleLobby}/>
+      <Home setForm={setForm} toggleLobby={toggleLobby} setError={setError}/>
       <Switch>
-        <Route path={'/:hash/:name'} render={()=> <Chat connectLobby={connectLobby}/>}/>
+        <Route path={'/:hash/:name'} render={()=> <Chat connectLobby={connectLobby} setError={setError}/>}/>
         <Route path={'/'} render={()=> lobby ? <Lobby rooms={rooms} setForm={setForm} toggleLobby={toggleLobby}/> : <></>}/>
       </Switch>
       {form && <Form form={form} setForm={setForm} lobbySocket={lobbySocket} error={error} setError={setError}/>}
-      {error && <div>error</div>}
+      {error && !form && <Error error={error} setError={setError}/>}
     </div>
   );
 }

@@ -20,9 +20,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
         
         # if room not found send error to client
-        if not(rooms[self.room_name]) :
+        if self.room_name not in rooms :
             await self.send(text_data=json.dumps({
-                'error': 'room not found'
+                'error': 'Room does not exist.'
             }))
         # if invalid credentials send error to client
         if rooms[self.room_name]['room_hash'] != self.url_hash :
@@ -276,10 +276,12 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if conditions not met
             else:
                 # Send error message to room creator
+                #handled by frontend
                 if not(room_name):
                     await self.send(text_data=json.dumps({
                         'error': 'must enter a room name'
                     }))
+                #handled by frontend
                 elif not(display_name):
                     await self.send(text_data=json.dumps({
                         'error': 'must enter a display name'

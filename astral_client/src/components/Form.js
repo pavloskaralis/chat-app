@@ -3,12 +3,14 @@ import '../styles/Form.scss'
 import Field from './Field.js'
 import Button from './Button.js'
 
-function Form({form, setForm, lobbySocket, error, setError}) {
+function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
 
   const [matchError, setMatchError] = useState(null);
 
   const title = {
-    'start': 'Start Chat'
+    'start': 'Start Chat',
+    'private': room,
+    'public': room
   }[form]
 
   const fields = {
@@ -21,9 +23,19 @@ function Form({form, setForm, lobbySocket, error, setError}) {
         'How users will identify you in the chat room.',
       ]
     },
-    'join': {},
-    'public': {},
-    'private': {},
+    'private': {
+      inputs: ['display name', 'password'],
+      inputTypes: ['text','password'],
+      descriptions: [
+        'How users will identify you in the chat room.',
+        'This room is private and requires a password.'
+      ]
+    },
+    'public': {
+      inputs: ['display name'],
+      inputTypes: ['text'],
+      descriptions: ['How users will identify you in the chat room.']
+    }
   }[form]
 
   const [roomName, updateRoomName] = useState('');
@@ -86,7 +98,7 @@ function Form({form, setForm, lobbySocket, error, setError}) {
         })}
         {(error || matchError) && <div className="form-error">{"ERROR: " + (error ? error : matchError)}</div>}
         <div className="form-button-wrap">
-          <Button text="Cancel" className="cancel-button" onClick={()=> setForm(null)}/>
+          <Button text="Cancel" className="cancel-button" onClick={()=> {setForm(null); setRoom(null)}}/>
           <Button text="Submit" className="submit-button" onClick={submit}/>
         </div>
       </div>

@@ -33,9 +33,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'error': 'Room is at full capacity.'
             }))
+        # if room access through direct link 
         if len(rooms[self.room_name]['display_names']) <= rooms_info[self.room_name]['roomCapacity']:
             await self.send(text_data=json.dumps({
-                'error': 'No display name provided.'
+                'error': 'No display name provided.',
+                'roomName': self.room_name,
+                'roomAccess':'private' if rooms[self.room_name]['room_password'] else 'public',
             }))
         #assign display name
         display_index = rooms_info[self.room_name]['roomCapacity']

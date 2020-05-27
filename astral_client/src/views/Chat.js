@@ -3,7 +3,7 @@ import { matchPath } from 'react-router-dom'
 import '../styles/Chat.scss'
 import history from '../history.js'
 
-function Chat({connectLobby,setError}) {
+function Chat({connectLobby,setError,setForm, setRoom}) {
     
     const [chatSocket, setChatSocket] = useState(null);
 
@@ -25,12 +25,23 @@ function Chat({connectLobby,setError}) {
             const data = JSON.parse(e.data); 
             console.log('data:',data)
             if(data.error){
-                setError(data.error);
-                webSocket.close();
+                if(!data.roomName) {
+                    setError(data.error);
+                    webSocket.close();
+                } else {
+                    if(data.roomAccess === 'private') {
+                        setForm('private')
+                        setRoom(data.roomName)
+                    } else if (data.roomAccess === 'public') {
+                        setForm('public')
+                        setRoom(data.roomName)
+                    }
+                    webSocket.close(); 
+                }
             }
         }
 
-        webSocket.onclose = (e) => {
+        webSocket.onclose = async (e) => {
             console.error('chat connection closed');
             history.push('/')
             connectLobby(); 

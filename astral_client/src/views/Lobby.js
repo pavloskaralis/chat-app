@@ -5,7 +5,7 @@ import Search from '../components/Search.js'
 import Toggle from '../components/Toggle.js'
 import Room from '../components/Room.js'
 
-function Lobby({toggleForm, toggleLobby, rooms}) {
+function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
 
   const [shadow, toggleShadow] = useState(false)
 
@@ -51,7 +51,7 @@ function Lobby({toggleForm, toggleLobby, rooms}) {
         {rooms.length === 0 && <div className="no-rooms">No rooms created.</div>}
         {rooms.map((room) => {
           return(
-            <Room key={room.roomName }room={room}/>
+            <Room key={room.roomName} room={room} lobbySocket={lobbySocket}/>
           )
         })}
       </div>   

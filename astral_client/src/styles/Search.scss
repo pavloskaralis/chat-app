@@ -15,10 +15,6 @@
         max-width: 360px;
     }
 
-    // @media (max-width: $breakpointE) and (max-height: 800px) {
-    //     max-width: 240px;
-    // }
-
     .search-input {
         height: 50px;
         background-color: $white;  
@@ -47,10 +43,9 @@
         position: absolute;
         right: 6px;
         cursor: pointer;
-        transition: background-color $transition; 
 
         &:hover {
-            background-color: darken($white, 10%);
+            background-color: $gray;
         }
     }
    

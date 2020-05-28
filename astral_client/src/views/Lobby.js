@@ -8,25 +8,55 @@ import Room from '../components/Room.js'
 function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
 
   const [shadow, toggleShadow] = useState(false)
+  const [sort, setSort] = useState('a-z')
 
   const toggles = [
-    {text: "name", className: "toggle-left", onClick: ()=>{}},
-    {text: "users", className: "toggle-right", onClick: ()=>{}},
-    {text: "access", className: "toggle-right", onClick: ()=>{}}
+    {
+      text: "name", 
+      className: "toggle-left", 
+      onClick: ()=> sort === 'a-z' ? setSort('z-a') : setSort ('a-z')
+    },
+    {
+      text: "users", 
+      className: "toggle-right", 
+      onClick: ()=> sort === '1-8' ? setSort('8-1') : setSort ('1-8')
+    },
+    {
+      text: "access", 
+      className: "toggle-right", 
+      onClick: ()=> sort === 'pu-pr' ? setSort('pr-pu') : setSort('pu-pr')
+    }
   ]
-
+ 
+  //add event listener on load
   useEffect(() => {
+    console.log("readding event listener")
     const roomContainer = document.getElementById("room-container");
     const toggleContainer = document.getElementById("toggle-container");
-    roomContainer.addEventListener("scroll", () => {
+    const scrollListener = () => {
       const shadowCheck = getComputedStyle(toggleContainer).boxShadow !== "none"
       if (roomContainer.scrollTop > 0 && !shadowCheck) {
         toggleShadow(true)
       } else if (roomContainer.scrollTop < 1 && shadowCheck ) {
         toggleShadow(false)
       }
-    })
+    }
+    roomContainer.addEventListener("scroll", scrollListener)
+    return () => roomContainer.removeEventListener("scroll",scrollListener)
   },[])
+
+  //computed property based on sort method 
+  const sortedRooms = () => {
+    switch(sort){
+      case 'a-z': return rooms.sort((a,b) => a.roomName > b.roomName ? 1 : -1);
+      case 'z-a': return rooms.sort((a,b) => a.roomName > b.roomName ? -1 : 1);
+      case '1-8': return rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1);
+      case '8-1': return rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1);
+      case 'pu-pr': return rooms.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1);
+      case 'pr-pu': return rooms.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1);
+      default: return rooms; 
+    } 
+  };
 
   return (
     <div className="lobby">
@@ -37,7 +67,6 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       <div className="lobby-search-wrap">
         <Search />
       </div>
-      
 
       <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"} id="toggle-container">
         {toggles.map((toggle)=> {
@@ -49,9 +78,18 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
 
       <div className="room-container" id="room-container">
         {rooms.length === 0 && <div className="no-rooms">No rooms created.</div>}
-        {rooms.map((room) => {
+        {sortedRooms().map((room) => {
           return(
-            <Room key={room.roomName} room={room} lobbySocket={lobbySocket}/>
+            <Room 
+              key={room.roomName} 
+              room={room} 
+              onClick={() => {
+                lobbySocket.send(JSON.stringify({
+                  'roomName': room.roomName,
+                  'requestType': 'join'
+                }));
+              }}
+            />
           )
         })}
       </div>   

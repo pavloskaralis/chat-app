@@ -5,7 +5,7 @@
 }
 
  .toggle-right {
-    width: calc(25% + 48px);
+    width: calc(25% + 52px);
 }
 
 
@@ -16,7 +16,7 @@
 
         &:hover {
             .toggle-text {
-                color: darken($white, 10%); 
+                color: $gray; 
             }
         }
 
@@ -44,7 +44,6 @@
             font-family: $fontB;
             font-size: $fontSizeC;
             text-transform: capitalize;
-            transition: color .25s; 
         }
     }   
 }

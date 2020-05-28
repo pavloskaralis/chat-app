@@ -29,6 +29,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.send(text_data=json.dumps({
                 'error': 'Invalid authentication.'
             }))
+        #if room is full capacity
         if rooms_info[self.room_name]['roomCapacity'] >= 8 :
             await self.send(text_data=json.dumps({
                 'error': 'Room is at full capacity.'

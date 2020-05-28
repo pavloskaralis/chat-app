@@ -17,6 +17,7 @@ function App() {
   const [rooms, updateRooms] = useState([]);
   const [room, setRoom] = useState(null)
 
+  //connect to lobby websocket on load
   useEffect(()=>{
     if (!matchPath(window.location.pathname, '/:hash/:name')) {
       connectLobby();
@@ -40,7 +41,6 @@ function App() {
           } 
         }
         await populate(); 
-        console.log(roomsArray)
 
         updateRooms(roomsArray);
       }

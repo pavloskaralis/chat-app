@@ -19,16 +19,17 @@ function Chat({connectLobby,setError,setForm, setRoom}) {
             + '/'
         );
 
-
         webSocket.onmessage = (e) => {
             console.log('chat connected')
             const data = JSON.parse(e.data); 
             console.log('data:',data)
             if(data.error){
+                //if invalid room, authentication, or full capacity
                 if(!data.roomName) {
                     setError(data.error);
                     webSocket.close();
                 } else {
+                    //if room exists but is accessed via direct link
                     if(data.roomAccess === 'private') {
                         setForm('private')
                         setRoom(data.roomName)
@@ -49,16 +50,22 @@ function Chat({connectLobby,setError,setForm, setRoom}) {
 
         setChatSocket(webSocket);
     }
-
+  
+    //connect to web socket on load
     useEffect( () => {
-        if (matchPath(window.location.pathname, '/:hash/:name') && !chatSocket) {
+        if (matchPath(window.location.pathname, '/:hash/:name')) {
             connectChat();
-        }  
+        } 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+  
+    //disconnect from chat socket on dismount 
+    useEffect( () => { 
         return ()=> {if(chatSocket) chatSocket.close()};
     },[chatSocket])
     
     return (
-        <div className="chat" onClick={()=> {console.log('chatSocket',chatSocket)}}>chat</div>
+        <div className="chat">chat</div>
     );
 }
 

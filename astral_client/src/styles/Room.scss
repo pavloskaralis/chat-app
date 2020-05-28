@@ -1,54 +1,60 @@
 @import './variables';
 
-.room {
-    display: flex;
-    height: 50px;
-    padding: 0 28px; 
-    box-sizing: border-box;
-
+.room-wrap {
+    width: 100%;
     &:hover {
         background-color: $blue;
     }
-    .room-name, .room-capacity, .room-access, .connect-wrap {
-        @extend .vertical-align;
-        font-family: $fontA;
-        font-size: $fontSizeD;
-        text-transform: capitalize;
-        font-weight: 600;
-        cursor: default;
-    }
-
-    .room-name {
-        width: 50%;
-        color: $white;
-    }
-    .room-capacity {
-        width: 20%;
-        color: $gray;
-    }
-    .room-access {
-        width: 30%;
-        color: $gray;
-    }
-    .connect-wrap {
-        width: 84px;
-    }
-    .connect-button {
-        @extend .vertical-align;
-        cursor: pointer;
-        text-align: center;
-        font-variant: small-caps;
-        text-transform: lowercase;
-        font-size: $fontSizeE;
-        width: 100%;
-        height: 30px;
-        color: $black;
-        background-color: $white;
-        padding-bottom: 2px;
+    
+    .room {
+        display: flex;
+        height: 50px;
+        padding: 0 28px; 
         box-sizing: border-box;
+        max-width: $breakpointC;
+        margin: 0 auto;
 
-        &:hover {
-            background-color: $gray;
+        .room-name, .room-capacity, .room-access, .connect-wrap {
+            @extend .vertical-align;
+            font-family: $fontA;
+            font-size: $fontSizeD;
+            text-transform: capitalize;
+            font-weight: 600;
+            cursor: default;
+        }
+    
+        .room-name {
+            width: 50%;
+            color: $white;
+        }
+        .room-capacity {
+            width: 20%;
+            color: $gray;
+        }
+        .room-access {
+            width: 25%;
+            color: $gray;
+        }
+        .connect-wrap {
+            width: 84px;
+        }
+        .connect-button {
+            @extend .vertical-align;
+            cursor: pointer;
+            text-align: center;
+            font-variant: small-caps;
+            text-transform: lowercase;
+            font-size: $fontSizeE;
+            width: 100%;
+            height: 30px;
+            color: $black;
+            background-color: $white;
+            padding-bottom: 2px;
+            box-sizing: border-box;
+    
+            &:hover {
+                background-color: $gray;
+            }
         }
     }
 }

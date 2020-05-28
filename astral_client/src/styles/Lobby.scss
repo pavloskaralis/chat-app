@@ -53,14 +53,20 @@
         box-sizing: border-box;
         flex-shrink: 0;
     }
-
+    
     .toggle-container {
-        display: flex;
-        width: 100%;
-        padding: 0 24px; 
-        box-sizing: border-box;
-        padding-bottom: calc( (((100vh - 290px)/3) - 50px)/4 - 4px );
-        margin-bottom: 4px;       
+        width: 100%; 
+        
+        .inner-toggle-container {
+            display: flex;
+            width: 100%;
+            padding: 0 24px; 
+            box-sizing: border-box;
+            padding-bottom: calc( (((100vh - 290px)/3) - 50px)/4 - 4px );
+            margin: 0 auto;
+            margin-bottom: 4px;  
+            max-width: $breakpointC;  
+        }
     }
 
     .scroll-shadow {
@@ -71,10 +77,10 @@
         width: 100%;
         overflow-y: auto;
         height: 100%;
-
+        
         .no-rooms {
             @extend .vertical-align;
-
+            
             cursor: default;
             height: 100%;
             text-align: center;

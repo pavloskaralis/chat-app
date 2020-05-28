@@ -4,7 +4,7 @@
     @extend .vertical-align;
     width: 100%;
     margin-bottom: 12px;
-    // background: red; 
+
     .field-top{
         display: flex;
         margin-bottom: 6px;
@@ -29,7 +29,7 @@
             box-sizing: border-box;
             font-family: $fontB;
             font-size: $fontSizeD;
-            color: $blue;
+            color: $black;
             box-shadow: inset 0 0 2.5px 0 rgba(black, 0.5);
         }
     }

@@ -7,6 +7,7 @@ function Field({field, value, index, onChange}) {
         <div className="field-top">
             <div className="field-label">{field.inputs[index] + ":"}</div>
             <input 
+              autoFocus={index === 0 ? true : false}
               id={field.inputs[index]}
               className="field-input" 
               type={field.inputTypes[index]} 

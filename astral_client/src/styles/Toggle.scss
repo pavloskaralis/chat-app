@@ -4,12 +4,17 @@
     width: 50%;
 }
 
- .toggle-right {
-    width: calc(25% + 52px);
+.toggle-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+ .toggle-middle, .toggle-right {
+    width: calc(22% + 52px);
 }
 
 
-.toggle-left,  .toggle-right {    
+.toggle-left,  .toggle-middle, .toggle-right {    
     .toggle-button {
         display: inline-flex;
         cursor: pointer;

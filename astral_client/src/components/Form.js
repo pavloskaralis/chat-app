@@ -9,8 +9,8 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
 
   const title = {
     'start': 'Start Chat',
-    'private': room,
-    'public': room
+    'private': room ? room.replace(/_/g," ") : "",
+    'public': room ? room.replace(/_/g," ") : ""
   }[form]
 
   const fields = {
@@ -56,6 +56,12 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     }[event.target.id]()
   }
 
+  const onKeyPress = (event) => {
+    if(event.key === 'Enter') {
+      submit();
+    }
+  }
+
   const submit = () => {
     setError(null);
     setMatchError(null);
@@ -82,7 +88,7 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
   }
 
   return (
-    <div className="form-container">
+    <div className="form-container" onKeyPress={onKeyPress}>
       <div className="form">
         <div className="form-title">{title}</div>
         {fields.inputs.map((input, index)=> {

@@ -18,7 +18,7 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
     },
     {
       text: "users", 
-      className: "toggle-right", 
+      className: "toggle-middle", 
       onClick: ()=> sort === '1-8' ? setSort('8-1') : setSort ('1-8')
     },
     {
@@ -45,18 +45,15 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
     return () => roomContainer.removeEventListener("scroll",scrollListener)
   },[])
 
-  //computed property based on sort method 
-  const sortedRooms = () => {
-    switch(sort){
-      case 'a-z': return rooms.sort((a,b) => a.roomName > b.roomName ? 1 : -1);
-      case 'z-a': return rooms.sort((a,b) => a.roomName > b.roomName ? -1 : 1);
-      case '1-8': return rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1);
-      case '8-1': return rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1);
-      case 'pu-pr': return rooms.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1);
-      case 'pr-pu': return rooms.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1);
-      default: return rooms; 
-    } 
-  };
+  //computed property based on sort method
+  const sortedRooms = {
+   'a-z': ()=> rooms.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
+   'z-a': ()=> rooms.sort((a,b) => a.roomName > b.roomName ? -1 : 1),
+   '1-8': ()=> rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1),
+   '8-1': ()=> rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1),
+   'pu-pr': ()=> rooms.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1),
+   'pr-pu': ()=> rooms.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1),
+  }[sort]()
 
   return (
     <div className="lobby">
@@ -65,20 +62,24 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       </div>
       
       <div className="lobby-search-wrap">
-        <Search />
+        <Search 
+          placeholder="Separate names with a ','"
+        />
       </div>
 
       <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"} id="toggle-container">
-        {toggles.map((toggle)=> {
-          return(
-            <Toggle key={toggle.text} toggle={toggle} />
-          )
-        })}
+        <div className="inner-toggle-container"> 
+          {toggles.map((toggle)=> {
+            return(
+              <Toggle key={toggle.text} toggle={toggle} />
+            )   
+          })}
+        </div>
       </div>     
 
       <div className="room-container" id="room-container">
-        {rooms.length === 0 && <div className="no-rooms">No rooms created.</div>}
-        {sortedRooms().map((room) => {
+        {rooms.length === 0 && <div className="no-rooms">There are currently no rooms to join.</div>}
+        {sortedRooms.map((room) => {
           return(
             <Room 
               key={room.roomName} 

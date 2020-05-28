@@ -19,6 +19,7 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     'public': room ? room.replace(/_/g," ") : ""
   }[form]
 
+
   //mapped as field components
   const fields = {
     'start': {
@@ -72,23 +73,29 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
   const submit = () => {
     setError(null);
     setMatchError(null);
+    //requestType equates to form type
+    const requestType = form; 
+    //if start form, room name has input field, otherwise it is stored in state
+    const configuredRoomName = roomName ? roomName.replace(/\s/g,'_') : room
+    console.log(!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     if (
-      roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/) &&
-      displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/) &&
-      (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/))
+      ((requestType === 'start' && roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
+      displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/) &&
+      (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     ){
+      console.log("sending")
       lobbySocket.send(JSON.stringify({
-          'roomName': roomName.replace(/\s/g,'_'),
+          'roomName': configuredRoomName,
           'roomPassword': roomPassword, 
           'displayName': displayName.replace(/\s/g,'_'), 
-          'requestType': 'start'
+          'requestType': requestType
       }));
     } else {
-      if(!roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/)) {
+      if(requestType === 'start' && !roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
         setMatchError('Room name must only contain letters, numbers, and enclosed spaces.')
       } else if (roomPassword && !roomPassword.match(/^[a-zA-Z\d]+$/)) {
         setMatchError('Password must only contain letters and numbers.')
-      } else if (!displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|[a-zA-Z\d]/)) {
+      } else if (!displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
         setMatchError('Display name must only contain letters, numbers, and enclosed spaces.')
       }
     }

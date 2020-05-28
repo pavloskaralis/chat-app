@@ -5,7 +5,7 @@ import Search from '../components/Search.js'
 import Toggle from '../components/Toggle.js'
 import Room from '../components/Room.js'
 
-function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
+function Lobby({toggleLobby, rooms, lobbySocket}) {
 
   //monitors on scroll shadow
   const [shadow, toggleShadow] = useState(false);
@@ -28,7 +28,7 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
     }
   }
   
-  //sort method 
+  //sort method; applied before filter method
   const sortRooms = (rooms,sort) => {
     const roomsCopy = rooms.map(room => room);
     return {
@@ -60,12 +60,13 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
     }
   ]
 
-  //configure rooms
+  //configure rooms on update
   useEffect(() => { 
     const sortedRooms = sortRooms(rooms,sort); 
     const filteredRooms = filterRooms(sortedRooms,search);
     configureRooms(filteredRooms)
   },[rooms,sort,search])
+
   //add event listener on load
   useEffect(() => {
     const roomContainer = document.getElementById("room-container");
@@ -91,10 +92,7 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       </div>
       
       <div className="lobby-search-wrap">
-        <Search 
-          //allows search button to work, rather than auto render
-          onClick={(value)=>updateSearch(value)}
-        />
+        <Search onClick={(value)=>updateSearch(value)}/>
       </div>
 
       <div className={shadow ? "toggle-container scroll-shadow" : "toggle-container"} id="toggle-container">

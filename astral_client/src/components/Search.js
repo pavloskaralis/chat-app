@@ -5,24 +5,24 @@ function Search({onClick}) {
 
   const [search, updateSearch] = useState("");
 
-   //allows enter key submit of search
-  const onKeyPress = (event,value) => {
+  //allows enter key submit of search
+  const onKeyPress = (event) => {
     if(event.key === 'Enter') {
-      onClick(value)
+      onClick(search);
     }
   }
   //if blank value, update lobby
   const onChange = (event) =>{ 
     if(!event.target.value){
-      updateSearch("")
-      onClick("")
+      updateSearch(event.target.value);
+      onClick(event.target.value);
     } else {
-      updateSearch(event.target.value)
+      updateSearch(event.target.value);
     }
   }
 
   return (
-    <div className="search" onKeyPress={(event)=> onKeyPress(event,search)}>
+    <div className="search" onKeyPress={onKeyPress}>
         <input 
           autoFocus
           className="search-input" 

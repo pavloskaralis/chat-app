@@ -194,7 +194,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             else: 
                 #send error to client
                 await self.send(text_data=json.dumps({
-                    'error': 'full capacity'
+                    'error': 'Room is at full capacity.'
                 })) 
 
         #if client submits private room request
@@ -212,7 +212,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if the password doesnt match, return error 
             elif rooms[room_name]['room_password'] != room_password :
                 await self.send(text_data=json.dumps({
-                    'error': 'invalid password'
+                    'error': 'The password provided is invalid.'
                 }))
             #if no display name entered issue error
             elif not(display_name):
@@ -222,7 +222,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if display name taken issue error
             elif display_name in rooms[room_name]['display_names']:
                 await self.send(text_data=json.dumps({
-                    'error': 'display name taken',
+                    'error': 'Display name is already taken.',
                 }))
             
 
@@ -245,7 +245,7 @@ class LobbyConsumer(AsyncWebsocketConsumer):
             #if display name taken issue error
             elif display_name in rooms[room_name]['display_names']:
                 await self.send(text_data=json.dumps({
-                    'error': 'display name taken',
+                    'error': 'Display name is already taken.',
                 }))
 
         #if client requests to start a room

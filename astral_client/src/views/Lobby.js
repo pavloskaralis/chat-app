@@ -18,7 +18,7 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
 
 
   //search filter
-  const filterRooms = (rooms,search) => {
+  const filterRooms = (rooms) => {
     if(search){
       return rooms.filter(room => {
         return room.roomName.toLowerCase().includes(search.toLowerCase())
@@ -29,7 +29,7 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
   }
   
   //sort method; applied before filter method
-  const sortRooms = (rooms,sort) => {
+  const sortRooms = () => {
     const roomsCopy = rooms.map(room => room);
     return {
       'a-z': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
@@ -62,8 +62,8 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
 
   //configure rooms on update
   useEffect(() => { 
-    const sortedRooms = sortRooms(rooms,sort); 
-    const filteredRooms = filterRooms(sortedRooms,search);
+    const sortedRooms = sortRooms(); 
+    const filteredRooms = filterRooms(sortedRooms);
     configureRooms(filteredRooms)
   },[rooms,sort,search])
 

@@ -77,13 +77,11 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     const requestType = form; 
     //if start form, room name has input field, otherwise it is stored in state
     const configuredRoomName = roomName ? roomName.replace(/\s/g,'_') : room
-    console.log(!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     if (
       ((requestType === 'start' && roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
       displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/) &&
       (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     ){
-      console.log("sending")
       lobbySocket.send(JSON.stringify({
           'roomName': configuredRoomName,
           'roomPassword': roomPassword, 

@@ -1,11 +1,28 @@
-import React from 'react'
+import React, {useState} from 'react'
 import '../styles/Search.scss'
 
-function Search({placeholder}) {
+function Search({onClick, onKeyPress}) {
+
+  const [search, updateSearch] = useState("");
+
+  const onChange = (event) =>{ 
+    if(!event.target.value){
+      updateSearch("")
+      onClick("")
+    } else {
+      updateSearch(event.target.value)
+    }
+  }
+
   return (
-    <div className="search">
-        <input className="search-input" placeholder={placeholder}/>
-        <div className="search-icon"></div>
+    <div className="search" onKeyPress={(event)=> onKeyPress(event,search)}>
+        <input 
+          autoFocus
+          className="search-input" 
+          value={search} 
+          onChange={onChange}
+        />
+        <div className="search-icon" onClick={()=> onClick(search)}></div>
     </div>
     );
 }

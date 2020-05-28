@@ -7,9 +7,54 @@ import Room from '../components/Room.js'
 
 function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
 
-  const [shadow, toggleShadow] = useState(false)
-  const [sort, setSort] = useState('a-z')
+  //monitors on scroll shadow
+  const [shadow, toggleShadow] = useState(false);
+  //monitors sort method
+  const [sort, setSort] = useState('a-z');
+  //stores search input value
+  const [search, updateSearch] = useState("");
+  //rooms with sort and filters applied
+  const [configuredRooms, configureRooms] = useState(rooms)
 
+
+  //monitor search value
+  // const onChange = (event) => updateSearch(event.target.value);
+
+  const onKeyPress = (event,value) => {
+    if(event.key === 'Enter') {
+      submit (value);
+    }
+  }
+  //search bar submit
+  const submit = (value) => {
+    updateSearch(value)
+  }
+
+  //search filter
+  const filterRooms = (rooms,search) => {
+    if(search){
+      return rooms.filter(room => {
+        return room.roomName.toLowerCase().includes(search.toLowerCase())
+      })
+    } else {
+      return rooms
+    }
+  }
+  
+  //sort method 
+  const sortRooms = (rooms,sort) => {
+    const roomsCopy = rooms.map(room => room);
+    return {
+      'a-z': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
+      'z-a': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? -1 : 1),
+      '1-8': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1),
+      '8-1': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1),
+      'pu-pr': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1),
+      'pr-pu': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1),
+    }[sort]()
+  }
+
+  //mapped as toggle components
   const toggles = [
     {
       text: "name", 
@@ -27,10 +72,15 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       onClick: ()=> sort === 'pu-pr' ? setSort('pr-pu') : setSort('pu-pr')
     }
   ]
- 
+
+  //configure rooms
+  useEffect(() => { 
+    const sortedRooms = sortRooms(rooms,sort); 
+    const filteredRooms = filterRooms(sortedRooms,search);
+    configureRooms(filteredRooms)
+  },[rooms,sort,search])
   //add event listener on load
   useEffect(() => {
-    console.log("readding event listener")
     const roomContainer = document.getElementById("room-container");
     const toggleContainer = document.getElementById("toggle-container");
     const scrollListener = () => {
@@ -45,15 +95,7 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
     return () => roomContainer.removeEventListener("scroll",scrollListener)
   },[])
 
-  //computed property based on sort method
-  const sortedRooms = {
-   'a-z': ()=> rooms.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
-   'z-a': ()=> rooms.sort((a,b) => a.roomName > b.roomName ? -1 : 1),
-   '1-8': ()=> rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1),
-   '8-1': ()=> rooms.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1),
-   'pu-pr': ()=> rooms.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1),
-   'pr-pu': ()=> rooms.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1),
-  }[sort]()
+
 
   return (
     <div className="lobby">
@@ -63,7 +105,8 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       
       <div className="lobby-search-wrap">
         <Search 
-          placeholder="Separate names with a ','"
+          onClick={submit}
+          onKeyPress={onKeyPress}
         />
       </div>
 
@@ -79,7 +122,7 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
 
       <div className="room-container" id="room-container">
         {rooms.length === 0 && <div className="no-rooms">There are currently no rooms to join.</div>}
-        {sortedRooms.map((room) => {
+        {configuredRooms.map((room) => {
           return(
             <Room 
               key={room.roomName} 

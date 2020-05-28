@@ -5,14 +5,21 @@ import Button from './Button.js'
 
 function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
 
+  //monitors field input char errors
   const [matchError, setMatchError] = useState(null);
+  //house values of each field 
+  const [roomName, updateRoomName] = useState('');
+  const [roomPassword, updateRoomPassword] = useState('');
+  const [displayName, updateDisplayName] = useState('');
 
+  //computed form title based on form type
   const title = {
     'start': 'Start Chat',
     'private': room ? room.replace(/_/g," ") : "",
     'public': room ? room.replace(/_/g," ") : ""
   }[form]
 
+  //mapped as field components
   const fields = {
     'start': {
       inputs: ['room name', 'password', 'display name'],
@@ -38,16 +45,14 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     }
   }[form]
 
-  const [roomName, updateRoomName] = useState('');
-  const [roomPassword, updateRoomPassword] = useState('');
-  const [displayName, updateDisplayName] = useState('');
-
+  //designate state prop for each field value
   const value = {
     'room name': roomName,
     'password': roomPassword,
     'display name': displayName
   }
 
+  //handle field inputs
   const onChange = (event) => {
     return {
       'room name': ()=> updateRoomName(event.target.value),
@@ -56,12 +61,14 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     }[event.target.id]()
   }
 
+  //submit form on enter
   const onKeyPress = (event) => {
     if(event.key === 'Enter') {
       submit();
     }
   }
 
+  //submit form; converts " " to "_" as required for django channels 
   const submit = () => {
     setError(null);
     setMatchError(null);

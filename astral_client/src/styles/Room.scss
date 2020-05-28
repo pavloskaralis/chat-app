@@ -4,6 +4,7 @@
     width: 100%;
     &:hover {
         background-color: $blue;
+        box-shadow: $shadow;
     }
     
     .room {
@@ -51,7 +52,8 @@
             background-color: $white;
             padding-bottom: 2px;
             box-sizing: border-box;
-    
+            box-shadow: $shadow;
+            
             &:hover {
                 background-color: $gray;
             }

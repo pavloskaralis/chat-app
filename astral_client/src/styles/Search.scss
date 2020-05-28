@@ -6,9 +6,10 @@
     justify-content: center;
     margin: 0 auto;
     width: 60%;
-    max-width: 500px;
+    max-width: $breakpointE;
     border-radius: 24px;
     position: relative;
+    box-shadow: $shadow;
     
     @media (max-height: 800px) {
         max-width: 360px;

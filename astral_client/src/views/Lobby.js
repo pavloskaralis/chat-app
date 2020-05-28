@@ -16,31 +16,6 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
   //rooms with sort and filters applied
   const [configuredRooms, configureRooms] = useState(rooms)
 
-
-  //search filter
-  const filterRooms = (rooms) => {
-    if(search){
-      return rooms.filter(room => {
-        return room.roomName.toLowerCase().includes(search.toLowerCase())
-      })
-    } else {
-      return rooms
-    }
-  }
-  
-  //sort method; applied before filter method
-  const sortRooms = () => {
-    const roomsCopy = rooms.map(room => room);
-    return {
-      'a-z': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
-      'z-a': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? -1 : 1),
-      '1-8': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1),
-      '8-1': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1),
-      'pu-pr': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1),
-      'pr-pu': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1),
-    }[sort]()
-  }
-
   //mapped as toggle components
   const toggles = [
     {
@@ -62,6 +37,28 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
 
   //configure rooms on update
   useEffect(() => { 
+    //search filter
+    const filterRooms = (rooms) => {
+      if(search){
+        return rooms.filter(room => {
+          return room.roomName.toLowerCase().includes(search.toLowerCase())
+        })
+      } else {
+        return rooms
+      }
+    }
+    //sort method; applied before filter method
+    const sortRooms = () => {
+      const roomsCopy = rooms.map(room => room);
+      return {
+        'a-z': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? 1 : -1),
+        'z-a': ()=> roomsCopy.sort((a,b) => a.roomName > b.roomName ? -1 : 1),
+        '1-8': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? 1 : -1),
+        '8-1': ()=> roomsCopy.sort((a,b) => a.roomCapacity > b.roomCapacity ? -1 : 1),
+        'pu-pr': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? -1 : 1),
+        'pr-pu': ()=> roomsCopy.sort((a,b) => a.roomAccess > b.roomAccess ? 1 : -1),
+      }[sort]()
+    }
     const sortedRooms = sortRooms(); 
     const filteredRooms = filterRooms(sortedRooms);
     configureRooms(filteredRooms)

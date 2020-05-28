@@ -11,24 +11,11 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
   const [shadow, toggleShadow] = useState(false);
   //monitors sort method
   const [sort, setSort] = useState('a-z');
-  //stores search input value
+  //stores search filter value; managed by search component to prevent auto render
   const [search, updateSearch] = useState("");
   //rooms with sort and filters applied
   const [configuredRooms, configureRooms] = useState(rooms)
 
-
-  //monitor search value
-  // const onChange = (event) => updateSearch(event.target.value);
-
-  const onKeyPress = (event,value) => {
-    if(event.key === 'Enter') {
-      submit (value);
-    }
-  }
-  //search bar submit
-  const submit = (value) => {
-    updateSearch(value)
-  }
 
   //search filter
   const filterRooms = (rooms,search) => {
@@ -105,8 +92,8 @@ function Lobby({toggleForm, toggleLobby, rooms, lobbySocket}) {
       
       <div className="lobby-search-wrap">
         <Search 
-          onClick={submit}
-          onKeyPress={onKeyPress}
+          //allows search button to work, rather than auto render
+          onClick={(value)=>updateSearch(value)}
         />
       </div>
 

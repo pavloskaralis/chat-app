@@ -3,8 +3,7 @@ import '../styles/Form.scss'
 import Field from './Field.js'
 import Button from './Button.js'
 
-function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
-
+function Form({form, setForm, lobbySocket, error, setError}) {
   //monitors field input char errors
   const [matchError, setMatchError] = useState(null);
   //house values of each field 
@@ -15,9 +14,9 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
   //computed form title based on form type
   const title = {
     'start': 'Start Chat',
-    'private': room ? room.replace(/_/g," ") : "",
-    'public': room ? room.replace(/_/g," ") : ""
-  }[form]
+    'private': form.roomName ? form.roomName.replace(/_/g," ") : "",
+    'public': form.roomName ? form.roomName.replace(/_/g," ") : ""
+  }[form.type]
 
 
   //mapped as field components
@@ -44,7 +43,7 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
       inputTypes: ['text'],
       descriptions: ['How users will identify you in the chat room.']
     }
-  }[form]
+  }[form.type]
 
   //designate state prop for each field value
   const value = {
@@ -74,11 +73,11 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
     setError(null);
     setMatchError(null);
     //requestType equates to form type
-    const requestType = form; 
+    const requestType = form.type; 
     //if start form, room name has input field, otherwise it is stored in state
-    const configuredRoomName = roomName ? roomName.replace(/\s/g,'_') : room
+    const configuredRoomName = roomName ? roomName.replace(/\s/g,'_') : form.roomName
     if (
-      ((requestType === 'start' && roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
+      ((requestType === 'start' && configuredRoomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
       displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/) &&
       (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     ){
@@ -89,7 +88,7 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
           'requestType': requestType
       }));
     } else {
-      if(requestType === 'start' && !roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
+      if(requestType === 'start' && !configuredRoomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
         setMatchError('Room name must only contain letters, numbers, and enclosed spaces.')
       } else if (roomPassword && !roomPassword.match(/^[a-zA-Z\d]+$/)) {
         setMatchError('Password must only contain letters and numbers.')
@@ -116,7 +115,7 @@ function Form({form, setForm, lobbySocket, error, setError, room, setRoom}) {
         })}
         {(error || matchError) && <div className="form-error">{"ERROR: " + (error ? error : matchError)}</div>}
         <div className="form-button-wrap">
-          <Button text="Cancel" className="cancel-button" onClick={()=> {setForm(null); setRoom(null)}}/>
+          <Button text="Cancel" className="cancel-button" onClick={()=> setForm({type: null, roomName: null})}/>
           <Button text="Submit" className="submit-button" onClick={submit}/>
         </div>
       </div>

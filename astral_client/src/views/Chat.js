@@ -3,7 +3,7 @@ import { matchPath } from 'react-router-dom'
 import '../styles/Chat.scss'
 import history from '../history.js'
 
-function Chat({connectLobby,setError,setForm, setRoom}) {
+function Chat({connectLobby,setError,setForm}) {
     
     const [chatSocket, setChatSocket] = useState(null);
 
@@ -30,13 +30,7 @@ function Chat({connectLobby,setError,setForm, setRoom}) {
                     webSocket.close();
                 } else {
                     //if room exists but is accessed via direct link
-                    if(data.roomAccess === 'private') {
-                        setForm('private')
-                        setRoom(data.roomName)
-                    } else if (data.roomAccess === 'public') {
-                        setForm('public')
-                        setRoom(data.roomName)
-                    }
+                    setForm({type: data.roomAccess, roomName: data.roomName})
                     webSocket.close(); 
                 }
             }

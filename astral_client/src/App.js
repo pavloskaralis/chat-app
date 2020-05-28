@@ -11,11 +11,10 @@ import history from './history.js'
 function App() {
 
   const [lobby, toggleLobby] = useState(false);
-  const [form,setForm] = useState(null);
+  const [form,setForm] = useState({type: null, roomName: null});
   const [error, setError] = useState(null);
   const [lobbySocket, setLobbySocket] = useState(null);
   const [rooms, updateRooms] = useState([]);
-  const [room, setRoom] = useState(null)
 
   //connect to lobby websocket on load
   useEffect(()=>{
@@ -52,20 +51,14 @@ function App() {
       
       //when authorization is succesful 
       if(data.roomName && !data.request) {
-        setForm(null)
+        setForm({type: null, roomName: null})
         webSocket.close();
         history.push('/' + data.roomHash + '/' + data.roomName)
       }
       
       // when socket requests credentials
       if(data.request) { 
-        if(data.request === 'private') {
-          setForm('private')
-          setRoom(data.roomName)
-        } else if (data.request === 'public') {
-          setForm('public')
-          setRoom(data.roomName)
-        }
+        setForm({type: data.request, roomName: data.roomName})
       }
     }
 
@@ -89,7 +82,6 @@ function App() {
             connectLobby={connectLobby} 
             setError={setError}
             setForm={setForm}
-            setRoom={setRoom}
           />}
         />
         <Route path={'/'} render={()=> lobby ? <Lobby 
@@ -100,16 +92,14 @@ function App() {
           /> : <></>}
         />
       </Switch>
-      {form && <Form 
+      {form.type && <Form 
         form={form} 
         setForm={setForm} 
         lobbySocket={lobbySocket} 
         error={error} setError={setError}
-        room={room}
-        setRoom={setRoom}
       />}
       {/* no error component when form displays error */}
-      {error && !form && <Error
+      {error && !form.type && <Error
         error={error} 
         setError={setError}
       />}

@@ -14,7 +14,7 @@ function Home({setForm, toggleLobby, setError}) {
         <Button 
           text="Start Chat" 
           className="start-button" 
-          onClick={()=>{setForm('start'); 
+          onClick={()=>{setForm({type: 'start', roomName: null}); 
           setError(null)}}
         />
         <Button 

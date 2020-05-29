@@ -15,18 +15,18 @@
     ::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
-        background-color: $blue;
+        background-color: $white;
     }
     
     ::-webkit-scrollbar {
         width: 12px;
-        background-color: $blue;
+        background-color: $white;
     }
     
     ::-webkit-scrollbar-thumb {
         border-radius: 10px;
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-        background-color: $white;
+        background-color: $red;
     }
     
     @media(max-width: $breakpointB) {
@@ -41,12 +41,14 @@
         padding-left: 9px;
         padding-right: 60px;
         box-sizing: border-box;
+        box-shadow: $shadow;
 
         .chat-search-wrap {
             @extend .vertical-align;
             display: flex;
             width: 100%;
             max-width: $breakpointE;
+            z-index: 1;
         }
 
         .chat-exit-wrap {
@@ -59,7 +61,7 @@
             position: absolute;
         }
 
-        .title {
+        .chat-title {
             @extend .vertical-align;
             text-align: center;
             font-family: $fontA;
@@ -69,6 +71,59 @@
             width: 100%;
             max-width: $breakpointF;
             margin-right: 9px;
+            letter-spacing: 1px;
+        }
+    }
+
+    .messages-container {
+        @extend .vertical-align;
+
+        justify-content: flex-start;
+        height: 100%;
+        width: 100%;
+    }
+
+    ::placeholder {
+        color: $red;
+    }
+
+    .message-input {
+        min-height: 83px;
+        height: auto;
+        max-height: 167px;
+        resize: none;
+        outline: none;
+        border: none;
+        box-shadow: $shadow;
+        color: $black;
+        padding: 24px;
+        box-sizing: border-box;
+        font-size: $fontSizeD;
+        font-family: $fontB;
+        overflow-y: scroll;
+    }
+
+    .users-container {
+        min-height: 50px;
+        background-color: $black;
+        display: flex;
+        justify-content: center;
+
+        .online, .display-name, .user-display-name {
+            @extend .vertical-align;
+
+            font-weight: 600;
+            font-family: $fontA;
+            font-size: $fontSizeE;
+            color: $white;
+            letter-spacing: 1px;
+        }
+
+        .online {
+            color: $red;
+        };
+
+        .user-display-name {
         }
     }
 }

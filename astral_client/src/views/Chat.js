@@ -67,6 +67,14 @@ function Chat({connectLobby,setError,setForm}) {
 
         setChatSocket(webSocket);
     }
+
+    const autoGrow = () => {
+        const messageInput = document.getElementById("message-input")
+        
+        messageInput.style.height = 'auto';
+        messageInput.style.height = (messageInput.scrollHeight) + 'px';
+        
+    }
   
     //connect to web socket on load
     useEffect( () => {
@@ -84,7 +92,7 @@ function Chat({connectLobby,setError,setForm}) {
     return (
         <div className="chat">
             <div className="title-container">
-                <div className="title">{roomName}</div>
+                <div className="chat-title">{roomName}</div>
                 <div className="chat-search-wrap">
                     <Search />
                 </div>
@@ -92,16 +100,19 @@ function Chat({connectLobby,setError,setForm}) {
                     <Exit />
                 </div>
             </div>
+
             <div className="messages-container">
 
             </div>
-            <textarea className="message-input" placeholder="Type a message..."/>
+
+            <textarea id="message-input" onInput={autoGrow} className="message-input" placeholder="Type a message..."/>
+            
             <div className="users-container">
-                <span className="online">{"Online:"}</span>
+                <span className="online">Online:</span>
                 {displayNames.map((name,index) => {
                     return (
-                        <span className={name === displayName ? "user-display-name" : "display-name"}>
-                            {index === displayNames.length - 1 ? " " + name : " " + name + ","}
+                        <span key={"displayName" + index} className={name === displayName ? "user-display-name" : "display-name"}>
+                            {index === displayNames.length - 1 ? '\u00A0' + name : '\u00A0' + name + ","}
                         </span>
                     )
                 })}

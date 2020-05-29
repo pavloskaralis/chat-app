@@ -1,5 +1,74 @@
 @import './variables';
 
 .chat {
+    @extend .vertical-align;
+    justify-content: flex-start;
+    width: 50%;
+    height: 100%;   
+    min-height: $minHeight;
+    position: absolute;
+    right: 0;
     z-index: 1;
+    box-sizing: border-box;
+    background-color: rgba($gray, .95);
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: $blue;
+    }
+    
+    ::-webkit-scrollbar {
+        width: 12px;
+        background-color: $blue;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: $white;
+    }
+    
+    @media(max-width: $breakpointB) {
+        width: 100%;
+    }
+
+    .title-container {
+        display: flex;
+        justify-content: space-evenly;
+        background-color: $black;
+        min-height: 64px;
+        padding-left: 9px;
+        padding-right: 60px;
+        box-sizing: border-box;
+
+        .chat-search-wrap {
+            @extend .vertical-align;
+            display: flex;
+            width: 100%;
+            max-width: $breakpointE;
+        }
+
+        .chat-exit-wrap {
+            width: 100%; 
+            right: 0;
+            top: 0;
+            padding: 11px 9px;
+            display: flex;
+            justify-content: flex-end;
+            position: absolute;
+        }
+
+        .title {
+            @extend .vertical-align;
+            text-align: center;
+            font-family: $fontA;
+            color: $white;
+            font-weight: 600;
+            font-size: $fontSizeB;
+            width: 100%;
+            max-width: $breakpointF;
+            margin-right: 9px;
+        }
+    }
 }

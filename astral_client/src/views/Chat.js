@@ -85,8 +85,12 @@ function Chat({connectLobby,setError,setForm}) {
         <div className="chat">
             <div className="title-container">
                 <div className="title">{roomName}</div>
-                <Search />
-                <Exit />
+                <div className="chat-search-wrap">
+                    <Search />
+                </div>
+                <div className="chat-exit-wrap">
+                    <Exit />
+                </div>
             </div>
             <div className="messages-container">
 

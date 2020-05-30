@@ -5,7 +5,7 @@ import history from '../history.js'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
 
-function Chat({connectLobby,setError,setForm}) {
+function Chat({connectLobby, toggleLobby, setError,setForm}) {
     
     const [chatSocket, setChatSocket] = useState(null);
     const [roomHistory, updateRoomHistory] = useState([]);
@@ -109,7 +109,7 @@ function Chat({connectLobby,setError,setForm}) {
                     <Search />
                 </div>
                 <div className="chat-exit-wrap">
-                    <Exit />
+                    <Exit onClick={()=>{history.push('/');toggleLobby(true)}}/>
                 </div>
             </div>
 
@@ -125,7 +125,7 @@ function Chat({connectLobby,setError,setForm}) {
                 placeholder="Type a message..."
             />
             
-            <div className="users-container">
+            <div id="users-container" className="users-container">
                 <span className="online">Online:</span>
                 {displayNames.map((name,index) => {
                     return (

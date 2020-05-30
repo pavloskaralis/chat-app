@@ -1,6 +1,6 @@
 @import './variables';
 
-.error-container {
+.leave-container {
     @extend .vertical-align;
     justify-content: center;
     width: 50%;
@@ -17,7 +17,7 @@
         width: 100%;
     }
 
-    .error {
+    .leave {
         margin: 0 auto;
         max-width: $breakpointE;
         width: 100%;
@@ -27,7 +27,7 @@
         box-sizing: border-box;
         box-shadow: $shadow; 
 
-        .error-title {
+        .leave-title {
             font-family: $fontA;
             font-size: $fontSizeB;
             margin-bottom: 24px;
@@ -38,7 +38,7 @@
             cursor: default;
         }
 
-        .error-message {
+        .leave-message {
             @extend .vertical-align;
             margin-top: 24px;
             text-align: center;
@@ -49,7 +49,7 @@
             cursor: default
         }
 
-        .error-button-wrap{
+        .leave-button-wrap{
             width: 100%;
             display: flex;
             justify-content: space-evenly;

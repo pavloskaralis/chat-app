@@ -1,9 +1,32 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import '../styles/Home.scss'
+import {matchPath} from 'react-router-dom'
+import history from '../history.js'
 import Button from '../components/Button.js';
 
-function Home({setForm, toggleLobby, setError}) {
+function Home({setForm, toggleLobby, setError, setLeave}) {
+
+  const [url, setUrl] = useState("")
+
+  useEffect(()=>{
+    setUrl(window.location.pathname)
+  })
+
+  const start =  {
+    action: () => {
+      setForm({type: 'start', roomName: null}); 
+      history.push('/');
+      setLeave(null)
+    }
+  }
   
+  const join = {
+    action: () => {
+      toggleLobby(true); 
+      history.push('/');
+      setLeave(null)
+    }
+  }
   return (
     <div className="home">
       <div className="title-wrap">
@@ -14,14 +37,22 @@ function Home({setForm, toggleLobby, setError}) {
         <Button 
           text="Start Chat" 
           className="start-button" 
-          onClick={()=>{setForm({type: 'start', roomName: null}); 
-          setError(null)}}
+          onClick={!matchPath(url, '/:hash/:name') ?
+            ()=> { 
+              setForm({type: 'start', roomName: null}); 
+              setError(null);
+            } : () => setLeave(start)
+          }
         />
         <Button 
           text="Join Chat" 
           className="join-button" 
-          onClick={()=>{toggleLobby(true); 
-          setError(null)}}
+          onClick={!matchPath(url, '/:hash/:name') ?
+            ()=> { 
+              toggleLobby(true); 
+              setError(null);
+            } : () => setLeave(join)
+          }
         />
       </div>
     </div>

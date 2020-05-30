@@ -6,7 +6,7 @@ import Form from './components/Form.js'
 import Lobby from './views/Lobby.js'
 import Chat from './views/Chat.js'
 import Error from './components/Error.js'
-
+import Leave from './components/Leave.js'
 import history from './history.js'
 function App() {
 
@@ -15,6 +15,7 @@ function App() {
   const [error, setError] = useState(null);
   const [lobbySocket, setLobbySocket] = useState(null);
   const [rooms, updateRooms] = useState([]);
+  const [leave, setLeave] = useState(null)
 
   //connect to lobby websocket on load
   useEffect(()=>{
@@ -76,12 +77,14 @@ function App() {
         setForm={setForm}
         toggleLobby={toggleLobby} 
         setError={setError}
+        setLeave={setLeave}
       />
       <Switch>
         <Route path={'/:hash/:name'} render={()=> <Chat 
             connectLobby={connectLobby} 
             setError={setError}
             setForm={setForm}
+            toggleLobby={toggleLobby}
           />}
         />
         <Route path={'/'} render={()=> lobby ? <Lobby 
@@ -97,6 +100,10 @@ function App() {
         setForm={setForm} 
         lobbySocket={lobbySocket} 
         error={error} setError={setError}
+      />}
+      {leave && <Leave 
+        leave={leave}
+        setLeave={setLeave}
       />}
       {/* no error component when form displays error */}
       {error && !form.type && <Error

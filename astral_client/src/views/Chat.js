@@ -12,6 +12,8 @@ function Chat({connectLobby,setError,setForm}) {
     const [displayName, setDisplayName] = useState("");
     const [displayNames, updateDisplayNames] = useState([]);
     const [roomName, setRoomNaame] = useState("");
+    const [messageValue, updateMessageValue] = useState("");
+    const messageInput = React.createRef();
 
     const connectChat = async () => {
         const splitUrl = window.location.pathname.split('/').filter(ele => ele.length > 0);
@@ -68,14 +70,24 @@ function Chat({connectLobby,setError,setForm}) {
         setChatSocket(webSocket);
     }
 
-    const autoGrow = () => {
-        const messageInput = document.getElementById("message-input")
-        
-        messageInput.style.height = 'auto';
-        messageInput.style.height = (messageInput.scrollHeight) + 'px';
-        
+    // const autoGrow = () => {
+       
+    //     let scrollHeight = messageInput.current.scrollHeight; 
+
+    //     messageInput.current.style.height = scrollHeight + "px"
+
+    //    console.log(messageInput.current.style.height, scrollHeight, getComputedStyle(messageInput.current).height)
+    // }
+
+    const onChange = (e) => {
+        updateMessageValue(e.target.value);
     }
-  
+
+    useEffect( () => {
+        let scrollHeight = messageInput.current.scrollHeight; 
+        messageInput.current.style.height = scrollHeight + "px"
+    },[messageValue])
+
     //connect to web socket on load
     useEffect( () => {
         if (matchPath(window.location.pathname, '/:hash/:name')) {
@@ -105,7 +117,13 @@ function Chat({connectLobby,setError,setForm}) {
 
             </div>
 
-            <textarea id="message-input" onInput={autoGrow} className="message-input" placeholder="Type a message..."/>
+            <textarea 
+                onChange={onChange}
+                value={messageValue} 
+                ref={messageInput} 
+                className="message-input" 
+                placeholder="Type a message..."
+            />
             
             <div className="users-container">
                 <span className="online">Online:</span>

@@ -15,8 +15,8 @@ function App() {
   const [error, setError] = useState(null);
   const [lobbySocket, setLobbySocket] = useState(null);
   const [rooms, updateRooms] = useState([]);
-  const [leave, setLeave] = useState(null)
-
+  const [leave, setLeave] = useState(null);
+  const [remove, toggleRemove] = useState(false);
   //connect to lobby websocket on load
   useEffect(()=>{
     if (!matchPath(window.location.pathname, '/:hash/:name')) {
@@ -85,6 +85,8 @@ function App() {
             setError={setError}
             setForm={setForm}
             toggleLobby={toggleLobby}
+            setLeave={setLeave}
+            toggleRemove={toggleRemove}
           />}
         />
         <Route path={'/'} render={()=> lobby ? <Lobby 
@@ -104,6 +106,7 @@ function App() {
       {leave && <Leave 
         leave={leave}
         setLeave={setLeave}
+        remove={remove}
       />}
       {/* no error component when form displays error */}
       {error && !form.type && <Error

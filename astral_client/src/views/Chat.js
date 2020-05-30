@@ -5,7 +5,7 @@ import history from '../history.js'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
 
-function Chat({connectLobby, toggleLobby, setError,setForm}) {
+function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove}) {
     
     const [chatSocket, setChatSocket] = useState(null);
     const [roomHistory, updateRoomHistory] = useState([]);
@@ -51,6 +51,7 @@ function Chat({connectLobby, toggleLobby, setError,setForm}) {
             }
             //when users arrive or exit
             if(data.displayNames) {
+                data.displayNames.length > 1 ? toggleRemove(false) : toggleRemove(false);
                 updateDisplayNames(data.displayNames.sort());
             }
             //when new message is added
@@ -70,17 +71,18 @@ function Chat({connectLobby, toggleLobby, setError,setForm}) {
         setChatSocket(webSocket);
     }
 
-    // const autoGrow = () => {
-       
-    //     let scrollHeight = messageInput.current.scrollHeight; 
-
-    //     messageInput.current.style.height = scrollHeight + "px"
-
-    //    console.log(messageInput.current.style.height, scrollHeight, getComputedStyle(messageInput.current).height)
-    // }
-
+    //tracks message input text
     const onChange = (e) => {
         updateMessageValue(e.target.value);
+    }
+
+    //function passed to leave component through exit button
+    const exit = {
+        action: ()=>{
+            history.push('/');
+            toggleLobby(true);
+            setLeave(null);
+        }
     }
 
     useEffect( () => {
@@ -109,7 +111,7 @@ function Chat({connectLobby, toggleLobby, setError,setForm}) {
                     <Search />
                 </div>
                 <div className="chat-exit-wrap">
-                    <Exit onClick={()=>{history.push('/');toggleLobby(true)}}/>
+                    <Exit onClick={()=>setLeave(exit)}/>
                 </div>
             </div>
 

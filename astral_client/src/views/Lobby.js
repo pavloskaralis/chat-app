@@ -104,6 +104,7 @@ function Lobby({toggleLobby, rooms, lobbySocket}) {
 
       <div className="room-container" id="room-container">
         {rooms.length === 0 && <div className="no-rooms">There are currently no rooms to join.</div>}
+        {configuredRooms.length === 0 && <div className="no-rooms">No rooms with that name were found.</div>}
         {configuredRooms.map((room) => {
           return(
             <Room 

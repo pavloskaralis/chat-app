@@ -51,7 +51,7 @@ function Chat({connectLobby,setError,setForm}) {
             }
             //when users arrive or exit
             if(data.displayNames) {
-                updateDisplayNames(data.displayNames);
+                updateDisplayNames(data.displayNames.sort());
             }
             //when new message is added
             if(data.message) {
@@ -130,7 +130,10 @@ function Chat({connectLobby,setError,setForm}) {
                 {displayNames.map((name,index) => {
                     return (
                         <span key={"displayName" + index} className={name === displayName ? "user-display-name" : "display-name"}>
-                            {index === displayNames.length - 1 ? '\u00A0' + name : '\u00A0' + name + ","}
+                            {index === displayNames.length - 1 ? 
+                                '\u00A0' + name.replace(/_/g,' ') : 
+                                '\u00A0' + name.replace(/_/g,' ') + ","
+                            }
                         </span>
                     )
                 })}

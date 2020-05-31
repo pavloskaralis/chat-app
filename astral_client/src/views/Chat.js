@@ -37,6 +37,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
                 //if invalid room, authentication, or full capacity
                 if(!data.roomName) {
                     setError(data.error);
+                    toggleLobby(false);
                     webSocket.close();
                 } else {
                     //if room exists but is accessed via direct link
@@ -130,7 +131,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             </div>
 
             <div className="messages-container">
-
+                {roomHistory.length === 0 && <div className="no-messages">There are currently no messages.</div>}
             </div>
 
             <textarea 

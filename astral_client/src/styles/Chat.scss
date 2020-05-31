@@ -81,6 +81,17 @@
         justify-content: flex-start;
         height: 100%;
         width: 100%;
+
+        .no-messages {
+            @extend .vertical-align;
+            
+            cursor: default;
+            height: 100%;
+            text-align: center;
+            font-family: $fontA;
+            font-size: $fontSizeC;
+            color: $blue; 
+        }
     }
 
     ::placeholder {

@@ -39,7 +39,7 @@ function Home({setForm, toggleLobby, setError, setLeave, lobby}) {
         <Button 
           text="Start Chat" 
           className="start-button" 
-          onClick={!matchPath(url, '/:hash/:name') ?
+          onClick={matchPath(url, '/:hash/:name') ?
             ()=> { 
               setForm({type: 'start', roomName: null}); 
               setError(null);

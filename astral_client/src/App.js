@@ -79,7 +79,6 @@ function App() {
         toggleLobby={toggleLobby} 
         setError={setError}
         setLeave={setLeave}
-        lobby={lobby}
       />
       <Switch>
         <Route path={'/:hash/:name'} render={()=> <Chat 

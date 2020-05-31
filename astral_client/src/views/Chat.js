@@ -36,10 +36,11 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             if(data.error){
                 //if invalid room, authentication, or full capacity
                 if(!data.roomName) {
+                    console.log("ERROR ONE")
                     setError(data.error);
-                    toggleLobby(false);
                     webSocket.close();
                 } else {
+                    console.log("ERROR TWO")
                     //if room exists but is accessed via direct link
                     setForm({type: data.roomAccess, roomName: data.roomName})
                     webSocket.close(); 

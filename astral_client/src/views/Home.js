@@ -4,14 +4,15 @@ import {matchPath} from 'react-router-dom'
 import history from '../history.js'
 import Button from '../components/Button.js';
 
-function Home({setForm, toggleLobby, setError, setLeave, lobby}) {
+function Home({setForm, toggleLobby, setError, setLeave}) {
 
-  const [url, setUrl] = useState("")
+  const [url, setUrl] = useState("/")
 
   //keeps track of url for prompting leave component before home buttonss
   useEffect(()=>{
     setUrl(window.location.pathname)
-  },[lobby])
+    console.log("CHANGED URL", window.location.pathname, url)
+  },[window.location.pathname])
 
   //passed to leave component when start button clicked in chat room
   const start =  {
@@ -39,7 +40,7 @@ function Home({setForm, toggleLobby, setError, setLeave, lobby}) {
         <Button 
           text="Start Chat" 
           className="start-button" 
-          onClick={matchPath(url, '/:hash/:name') ?
+          onClick={!matchPath(url, '/:hash/:name') ?
             ()=> { 
               setForm({type: 'start', roomName: null}); 
               setError(null);

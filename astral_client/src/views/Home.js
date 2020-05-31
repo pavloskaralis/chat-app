@@ -4,14 +4,16 @@ import {matchPath} from 'react-router-dom'
 import history from '../history.js'
 import Button from '../components/Button.js';
 
-function Home({setForm, toggleLobby, setError, setLeave}) {
+function Home({setForm, toggleLobby, setError, setLeave, lobby}) {
 
   const [url, setUrl] = useState("")
 
+  //keeps track of url for prompting leave component before home buttonss
   useEffect(()=>{
     setUrl(window.location.pathname)
-  })
+  },[lobby])
 
+  //passed to leave component when start button clicked in chat room
   const start =  {
     action: () => {
       setForm({type: 'start', roomName: null}); 
@@ -19,7 +21,7 @@ function Home({setForm, toggleLobby, setError, setLeave}) {
       setLeave(null)
     }
   }
-  
+  //passed to leave component when leave button clicked in chat room
   const join = {
     action: () => {
       toggleLobby(true); 

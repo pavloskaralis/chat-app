@@ -54,6 +54,7 @@ function App() {
       if(data.roomName && !data.request) {
         setForm({type: null, roomName: null})
         webSocket.close();
+        toggleLobby(false);
         history.push('/' + data.roomHash + '/' + data.roomName)
       }
       
@@ -78,6 +79,7 @@ function App() {
         toggleLobby={toggleLobby} 
         setError={setError}
         setLeave={setLeave}
+        lobby={lobby}
       />
       <Switch>
         <Route path={'/:hash/:name'} render={()=> <Chat 

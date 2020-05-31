@@ -46,7 +46,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             }
             //on initial connection
             if(data.roomHistory) {
-                updateRoomHistory(data.history);
+                updateRoomHistory(data.roomHistory);
                 setDisplayName(data.displayName);
             }
             //when users arrive or exit
@@ -71,10 +71,23 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         setChatSocket(webSocket);
     }
 
+    //enable enter key submit
+    const onKeyPress = (event) => {
+        if(event.key === 'Enter') {
+            if (event.shiftKey) return;
+            chatSocket.send(JSON.stringify({
+                'message': messageValue
+            })); 
+            updateMessageValue("");
+        }
+    }
+  
     //tracks message input text
     const onChange = (e) => {
         updateMessageValue(e.target.value);
     }
+
+    // const inputKeyDown = (e)
 
     //function passed to leave component through exit button
     const exit = {
@@ -85,10 +98,11 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         }
     }
 
+    //autosize message input
     useEffect( () => {
         let scrollHeight = messageInput.current.scrollHeight; 
         messageInput.current.style.height = scrollHeight + "px"
-    },[messageValue])
+    },[messageInput, messageValue])
 
     //connect to web socket on load
     useEffect( () => {
@@ -121,6 +135,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
 
             <textarea 
                 onChange={onChange}
+                onKeyPress={onKeyPress}
                 value={messageValue} 
                 ref={messageInput} 
                 className="message-input" 

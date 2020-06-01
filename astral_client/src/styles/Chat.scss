@@ -72,6 +72,9 @@
             margin-right: 9px;
             letter-spacing: 1px;
             flex-shrink: 0;
+            @media(max-width: $breakpointF) {
+                font-size: 30px;
+            }
         }
     }
 
@@ -93,6 +96,12 @@
             font-family: $fontA;
             font-size: $fontSizeC;
             color: $blue; 
+            @media(max-width: $breakpointE) {
+                font-size: 21px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 18px;
+            }
         }
     }
 
@@ -114,6 +123,10 @@
         font-size: $fontSizeD;
         font-family: $fontB;
         background-color: $white;
+        @media(max-width: $breakpointE) {
+            font-size: 17px;
+        }
+
     }
 
     .users-container {
@@ -132,6 +145,9 @@
             font-size: $fontSizeE;
             color: $white;
             letter-spacing: 1px;
+            @media(max-width: $breakpointF) {
+                font-size: 11px;
+            }
         }
 
         .online {

@@ -10,6 +10,12 @@
     font-family: $fontB;
     font-size: $fontSizeD;
     white-space: pre-line;
+    @media(max-width: $breakpointE) {
+        font-size: 17px;
+    }
+    @media(max-width: $breakpointF) {
+        // font-size: 14px;
+    }
 }
 
 .wrap {
@@ -64,6 +70,9 @@
             font-size: $fontSizeE;
             font-weight: 600;
             color: $blue; 
+            @media(max-width: $breakpointF) {
+                font-size: 11px;
+            }
         }
         .other-message {
             @extend .message;

@@ -35,6 +35,9 @@
             font-weight: 600;
             color: $black;
             cursor: default;
+            @media(max-width: $breakpointF) {
+                font-size: 30px;
+            }
         }
 
         .form-error {
@@ -46,6 +49,9 @@
             font-weight: 600;
             color: $red;
             cursor: default;
+            @media(max-width: $breakpointF) {
+                font-size: 11px;
+            }
         }
 
         .form-button-wrap{

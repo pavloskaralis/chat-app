@@ -35,7 +35,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
 
         webSocket.onmessage = (e) => {
             const data = JSON.parse(e.data); 
-            console.log('data:',data)
+            // console.log('data:',data)
             //connection erros
             if(data.error){
                 //if invalid room, authentication, or full capacity
@@ -66,7 +66,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         }
 
         webSocket.onclose = async (e) => {
-            console.error('chat connection closed');
+            // console.error('chat connection closed');
             history.push('/')
             connectLobby(); 
         };

@@ -36,6 +36,9 @@
             color: $black;
             text-transform: capitalize;
             cursor: default;
+            @media(max-width: $breakpointF) {
+                font-size: 30px;
+            }
         }
 
         .leave-message {
@@ -46,7 +49,13 @@
             font-size: $fontSizeD;
             font-weight: 600;
             color: $blue;
-            cursor: default
+            cursor: default;
+            @media(max-width: $breakpointE) {
+                font-size: 17px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 14px;
+            }
         }
 
         .leave-button-wrap{

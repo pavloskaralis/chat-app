@@ -21,6 +21,12 @@
             font-size: $fontSizeD;
             font-weight: 600;
             cursor: default;
+            @media(max-width: $breakpointE) {
+                font-size: 17px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 14px;
+            }
         }
     
         .room-name {
@@ -39,6 +45,9 @@
         }
         .connect-wrap {
             width: 84px;
+            @media(max-width: $breakpointF) {
+                width: 72px;
+            }
         }
         .connect-button, .full-button {
             @extend .vertical-align;
@@ -54,7 +63,9 @@
             padding-bottom: 2px;
             box-sizing: border-box;
             box-shadow: $shadow;
-            
+            @media(max-width: $breakpointF) {
+                font-size: 11px;        
+            }
             &:hover {
                 background-color: $gray;
             }

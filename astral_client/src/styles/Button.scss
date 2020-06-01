@@ -10,6 +10,12 @@
     border-radius: 24px;
     cursor: pointer;
     box-shadow: $shadow;
+    @media(max-width: $breakpointE) {
+        font-size: 21px;
+    }
+    @media(max-width: $breakpointF) {
+        font-size: 18px;
+    }
 }
 
 .cancel-button, .submit-button, .close-button, .yes-button, .no-button {

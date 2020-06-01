@@ -23,14 +23,20 @@
         letter-spacing: 6px;
         cursor: default;
         box-shadow: $shadow;
-
+        
         .title-top {
             color: $white;
             font-size: $fontSizeB;
+            @media(max-width: $breakpointF) {
+                font-size: 30px;
+            }
         }
         .title-bottom {
             color: $red;
             font-size: $fontSizeA;
+            @media(max-width: $breakpointF) {
+                font-size: 58px;
+            }
         }
     }
 

@@ -30,7 +30,12 @@
             color: $red;
             font-family: $fontA;
             font-size: $fontSizeD;
-
+            @media(max-width: $breakpointE) {
+                font-size: 17px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 14px;
+            }
             .triangle-top, .triangle-bottom {
                 text-align: center;
                 padding: 0 2px;
@@ -49,6 +54,12 @@
             font-family: $fontB;
             font-size: $fontSizeC;
             text-transform: capitalize;
+            @media(max-width: $breakpointE) {
+                font-size: 21px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 18px;
+            }
         }
     }   
 }

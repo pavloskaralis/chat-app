@@ -86,6 +86,12 @@
             font-family: $fontA;
             font-size: $fontSizeC;
             color: $gray; 
+            @media(max-width: $breakpointE) {
+                font-size: 21px;
+            }
+            @media(max-width: $breakpointF) {
+                font-size: 18px;
+            }
         }
 
     }

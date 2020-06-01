@@ -28,7 +28,7 @@ function App() {
     const webSocket = await new WebSocket('ws://localhost:8000/ws/astral/');
 
     webSocket.onmessage = async (e) => {
-      console.log('lobby connected')
+      // console.log('lobby connected')
       const data = JSON.parse(e.data); 
       //when socket returns room list, generate room nodes
       if(data.rooms) {
@@ -65,7 +65,7 @@ function App() {
     }
 
     webSocket.onclose = (e) => {
-      console.error('lobby connection closed');
+      // console.error('lobby connection closed');
     };
 
     setLobbySocket(webSocket);

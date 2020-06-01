@@ -10,7 +10,7 @@ function Leave({leave, setLeave, remove}) {
                 Leave Chat?
             </div>
            {remove && <div className="leave-message">
-                Note: empty rooms will be deleted. 
+                NOTE: empty rooms will be deleted. 
             </div>}
             <div className="leave-button-wrap">
                 <Button text="No" className="no-button" onClick={()=>setLeave(null)}/>

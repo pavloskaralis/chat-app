@@ -4,9 +4,9 @@
 .message {
     padding: 24px; 
     border-radius: 24px; 
-    max-width: 65%;
+    max-width: 67%;
     flex-wrap: wrap;
-    word-break: break-all;
+    word-wrap: break-word;
     font-family: $fontB;
     font-size: $fontSizeD;
     white-space: pre-line;

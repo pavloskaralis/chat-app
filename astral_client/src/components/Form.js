@@ -74,21 +74,20 @@ function Form({form, setForm, lobbySocket, error, setError}) {
     setMatchError(null);
     //requestType equates to form type
     const requestType = form.type; 
-    //if start form, room name has input field, otherwise it is stored in state
-    const configuredRoomName = roomName ? roomName.replace(/\s/g,'_') : form.roomName
     if (
-      ((requestType === 'start' && configuredRoomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
+      ((requestType === 'start' && roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))|| requestType !== "start") &&
       displayName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/) &&
       (!roomPassword || roomPassword.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/))
     ){
       lobbySocket.send(JSON.stringify({
-          'roomName': configuredRoomName,
+          //if start form, room name has input field, otherwise it is stored in state
+          'roomName': roomName ? roomName.replace(/\s/g,'_') : form.roomName,
           'roomPassword': roomPassword, 
           'displayName': displayName.replace(/\s/g,'_'), 
           'requestType': requestType
       }));
     } else {
-      if(requestType === 'start' && !configuredRoomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
+      if(requestType === 'start' && !roomName.match(/^[a-zA-Z\d][a-zA-Z\d\s]{0,}[a-zA-Z\d]$|^[a-zA-Z\d]$/)) {
         setMatchError('Room name must only contain letters, numbers, and enclosed spaces.')
       } else if (roomPassword && !roomPassword.match(/^[a-zA-Z\d]+$/)) {
         setMatchError('Password must only contain letters and numbers.')

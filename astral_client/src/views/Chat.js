@@ -24,7 +24,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         const splitUrl = window.location.pathname.split('/').filter(ele => ele.length > 0);
         const roomHash = splitUrl[0];
         const roomName = splitUrl[1];
-        setRoomNaame(roomName);
+        setRoomNaame(roomName.replace(/_/g,' '));
         const webSocket = await new WebSocket( 
             'ws://localhost:8000/ws/astral/'
             + roomHash

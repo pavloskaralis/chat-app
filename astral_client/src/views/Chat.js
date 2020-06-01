@@ -55,7 +55,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             }
             //when users arrive or exit
             if(data.displayNames) {
-                data.displayNames.length > 1 ? toggleRemove(false) : toggleRemove(false);
+                data.displayNames.length > 1 ? toggleRemove(false) : toggleRemove(true);
                 updateDisplayNames(data.displayNames.sort());
             }
             //when new message is added

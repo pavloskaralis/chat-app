@@ -2,20 +2,21 @@
 
 
 .message {
-    padding: 18px; 
-    border-radius: 18px; 
-    max-width: 60%;
+    padding: 24px; 
+    border-radius: 24px; 
+    max-width: 65%;
     flex-wrap: wrap;
     word-break: break-all;
     font-family: $fontB;
     font-size: $fontSizeD;
+    white-space: pre-line;
 }
 
 .wrap {
     width: 100%;
     display: flex; 
     box-sizing: border-box;
-    padding: 3px 24px;
+    padding: 1.5px 24px;
     padding-left: 0;
     cursor: default;
 }

@@ -10,12 +10,11 @@
     font-family: $fontB;
     font-size: $fontSizeD;
     white-space: pre-line;
+    min-height: fit-content;
     @media(max-width: $breakpointE) {
-        font-size: 17px;
+        font-size: 16px;
     }
-    @media(max-width: $breakpointF) {
-        // font-size: 14px;
-    }
+
 }
 
 .wrap {
@@ -25,6 +24,7 @@
     padding: 1.5px 24px;
     padding-left: 0;
     cursor: default;
+    min-height: fit-content;
 }
 
 .gap {

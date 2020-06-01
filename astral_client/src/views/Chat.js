@@ -187,6 +187,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
                         />    
                     )
                 })}
+                {configuredRoomHistory.length === 0 && <div className="no-messages">No such messages were found.</div>}
                 {roomHistory.length === 0 && <div className="no-messages">There are currently no messages.</div>}
             </div>
 

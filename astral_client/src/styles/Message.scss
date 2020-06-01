@@ -17,6 +17,7 @@
     box-sizing: border-box;
     padding: 3px 24px;
     padding-left: 0;
+    cursor: default;
 }
 
 .gap {
@@ -42,7 +43,7 @@
         @extend .vertical-align;
         justify-content: flex-end;
         height: 100%;
-        width: 50px;
+        min-width: 50px;
         padding: 0 12px; 
         .avatar {
             width: 100%;

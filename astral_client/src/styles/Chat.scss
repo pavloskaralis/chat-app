@@ -68,7 +68,6 @@
             color: $white;
             font-weight: 600;
             font-size: $fontSizeB;
-            width: 100%;
             max-width: $breakpointF;
             margin-right: 9px;
             letter-spacing: 1px;
@@ -101,7 +100,7 @@
     }
 
     .message-input {
-        min-height: 73px;
+        min-height: 60px;
         height: auto;
         max-height: 167px;
         resize: none;
@@ -110,7 +109,6 @@
         box-shadow: $shadow;
         color: $black;
         padding: 18px;
-        padding-bottom: 16px;
         box-sizing: border-box;
         font-size: $fontSizeD;
         font-family: $fontB;

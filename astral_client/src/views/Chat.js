@@ -130,7 +130,6 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
     //auto scroll to bottom of message container
     useEffect( () => {
         if(!search){
-            console.log("SCROLL HEIGHT")
             let scrollHeight = messageContainer.current.scrollHeight; 
             messageContainer.current.scrollTop = scrollHeight;
         }
@@ -140,9 +139,10 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
     //autosize message input
     useEffect( () => {
         let scrollHeight = messageInput.current.scrollHeight; 
-        messageInput.current.style.height = scrollHeight + "px"
+        messageInput.current.style.height = scrollHeight%2 === 1 ?
+            scrollHeight + "px" : scrollHeight + 1 + "px"
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[messageValue])
+    },[messageInput])
 
     //connect to web socket on load
     useEffect( () => {
@@ -187,8 +187,8 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
                         />    
                     )
                 })}
-                {configuredRoomHistory.length === 0 && <div className="no-messages">No such messages were found.</div>}
-                {roomHistory.length === 0 && <div className="no-messages">There are currently no messages.</div>}
+                {search && configuredRoomHistory.length === 0 && <div className="no-messages">No such messages were found.</div>}
+                {!search && roomHistory.length === 0 && <div className="no-messages">There are currently no messages.</div>}
             </div>
 
             <textarea 

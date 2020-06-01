@@ -1,0 +1,72 @@
+@import './variables';
+
+
+.message {
+    padding: 18px; 
+    border-radius: 18px; 
+    max-width: 60%;
+    flex-wrap: wrap;
+    word-break: break-all;
+    font-family: $fontB;
+    font-size: $fontSizeD;
+}
+
+.wrap {
+    width: 100%;
+    display: flex; 
+    box-sizing: border-box;
+    padding: 3px 24px;
+    padding-left: 0;
+}
+
+.gap {
+    margin-top: 15px;
+}
+
+.user-wrap {
+    @extend .wrap;
+    justify-content: flex-end; 
+
+    .user-message{
+        @extend .message;  
+        background-color: $blue; 
+        color: $white;
+    }
+}
+
+
+.other-wrap {
+    @extend .wrap;
+    display: flex; 
+    .avatar-wrap {  
+        @extend .vertical-align;
+        justify-content: flex-end;
+        height: 100%;
+        width: 50px;
+        padding: 0 9px; 
+        .avatar {
+            width: 100%;
+            height: 50px; 
+            background-image: url("../resources/avatar.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    }
+    .data-container {
+        @extend .vertical-align; 
+
+        .other-display-name{
+            font-family: $fontA;
+            padding-left: 18px;
+            margin-bottom: 6px;
+            font-size: $fontSizeE;
+            font-weight: 600;
+            color: $blue; 
+        }
+        .other-message {
+            @extend .message;
+            background-color: $white; 
+            color: $black;
+        }
+    }
+}

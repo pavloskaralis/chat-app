@@ -6,30 +6,43 @@ import Button from '../components/Button.js';
 
 function Home({setForm, toggleLobby, setError, setLeave}) {
 
-  const [url, setUrl] = useState("/")
-
-  //keeps track of url for prompting leave component before home buttonss
-  useEffect(()=>{
-    setUrl(window.location.pathname)
-    console.log("CHANGED URL", window.location.pathname, url)
-  },[window.location.pathname])
 
   //passed to leave component when start button clicked in chat room
-  const start =  {
+  const startAction =  {
     action: () => {
       setForm({type: 'start', roomName: null}); 
       history.push('/');
       setLeave(null)
     }
   }
+
+  const start = () => {
+      if(!matchPath(window.location.pathname, '/:hash/:name')){
+        setForm({type: 'start', roomName: null}); 
+        setError(null);
+      } else {
+        setLeave(startAction)
+      }
+  }
+ 
   //passed to leave component when leave button clicked in chat room
-  const join = {
+  const joinAction = {
     action: () => {
       toggleLobby(true); 
       history.push('/');
       setLeave(null)
     }
   }
+
+  const join = () => {
+    if(!matchPath(window.location.pathname, '/:hash/:name')){
+      toggleLobby(true); 
+      setError(null);
+    } else {
+      setLeave(joinAction)
+    }
+  }
+
   return (
     <div className="home">
       <div className="title-wrap">
@@ -40,22 +53,12 @@ function Home({setForm, toggleLobby, setError, setLeave}) {
         <Button 
           text="Start Chat" 
           className="start-button" 
-          onClick={!matchPath(url, '/:hash/:name') ?
-            ()=> { 
-              setForm({type: 'start', roomName: null}); 
-              setError(null);
-            } : () => setLeave(start)
-          }
+          onClick={start}
         />
         <Button 
           text="Join Chat" 
           className="join-button" 
-          onClick={!matchPath(url, '/:hash/:name') ?
-            ()=> { 
-              toggleLobby(true); 
-              setError(null);
-            } : () => setLeave(join)
-          }
+          onClick={join}
         />
       </div>
     </div>

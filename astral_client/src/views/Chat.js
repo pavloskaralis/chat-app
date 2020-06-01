@@ -4,16 +4,21 @@ import '../styles/Chat.scss'
 import history from '../history.js'
 import Exit from '../components/Exit.js'
 import Search from '../components/Search.js'
+import Message from '../components/Message.js'
 
 function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove}) {
     
     const [chatSocket, setChatSocket] = useState(null);
     const [roomHistory, updateRoomHistory] = useState([]);
+    const [configuredRoomHistory, configureRoomHistory] = useState(roomHistory);
+    const [search, updateSearch ] = useState("");
     const [displayName, setDisplayName] = useState("");
     const [displayNames, updateDisplayNames] = useState([]);
     const [roomName, setRoomNaame] = useState("");
     const [messageValue, updateMessageValue] = useState("");
+    const [newMessage, setNewMessage] = useState(null)
     const messageInput = React.createRef();
+    const messageContainer = React.createRef();
 
     const connectChat = async () => {
         const splitUrl = window.location.pathname.split('/').filter(ele => ele.length > 0);
@@ -29,19 +34,16 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         );
 
         webSocket.onmessage = (e) => {
-            console.log('chat connected')
             const data = JSON.parse(e.data); 
             console.log('data:',data)
             //connection erros
             if(data.error){
                 //if invalid room, authentication, or full capacity
                 if(!data.roomName) {
-                    console.log("ERROR ONE")
                     setError(data.error);
                     webSocket.close();
+                //if room exists but is accessed via direct link
                 } else {
-                    console.log("ERROR TWO")
-                    //if room exists but is accessed via direct link
                     setForm({type: data.roomAccess, roomName: data.roomName})
                     webSocket.close(); 
                 }
@@ -58,9 +60,8 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             }
             //when new message is added
             if(data.message) {
-                const updatedHistory = roomHistory.map(message => message);
-                updatedHistory.push(data);
-                updateRoomHistory(updatedHistory);
+                //needs to be passed out of socket for most updated history
+                setNewMessage(data);
             }
         }
 
@@ -80,6 +81,7 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             chatSocket.send(JSON.stringify({
                 'message': messageValue
             })); 
+            event.preventDefault();
             updateMessageValue("");
         }
     }
@@ -88,8 +90,6 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
     const onChange = (e) => {
         updateMessageValue(e.target.value);
     }
-
-    // const inputKeyDown = (e)
 
     //function passed to leave component through exit button
     const exit = {
@@ -100,11 +100,49 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
         }
     }
 
+    //add new message to history; can't be done within websocket
+    useEffect(() => {
+        if(newMessage){
+            updateRoomHistory([...roomHistory,newMessage]);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [newMessage])
+
+    //apply search filter
+    useEffect(() => { 
+        const filterHistory = (history) => {
+            if(search){
+            return roomHistory.filter(history => {
+                //matching message or display name
+                return (
+                    history.message.toLowerCase().includes(search.toLowerCase()) || 
+                    history.displayName.replace(/_/g,' ').toLowerCase().includes(search.toLowerCase())
+                )
+            })
+            } else {
+                return history
+            }
+        }
+        const filteredHistory = filterHistory(roomHistory);
+        configureRoomHistory(filteredHistory)
+    },[roomHistory,search])
+    
+    //auto scroll to bottom of message container
+    useEffect( () => {
+        if(!search){
+            console.log("SCROLL HEIGHT")
+            let scrollHeight = messageContainer.current.scrollHeight; 
+            messageContainer.current.scrollTop = scrollHeight;
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[configuredRoomHistory, displayName])
+
     //autosize message input
     useEffect( () => {
         let scrollHeight = messageInput.current.scrollHeight; 
         messageInput.current.style.height = scrollHeight + "px"
-    },[messageInput, messageValue])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[messageValue])
 
     //connect to web socket on load
     useEffect( () => {
@@ -124,14 +162,31 @@ function Chat({connectLobby,toggleLobby,setError,setForm,setLeave,toggleRemove})
             <div className="title-container">
                 <div className="chat-title">{roomName}</div>
                 <div className="chat-search-wrap">
-                    <Search />
+                    <Search onClick={(value)=>updateSearch(value)}/>
                 </div>
                 <div className="chat-exit-wrap">
                     <Exit onClick={()=>setLeave(exit)}/>
                 </div>
             </div>
 
-            <div className="messages-container">
+            <div className="messages-container" ref={messageContainer}>
+                {configuredRoomHistory.map((history, index)=> {
+                    return(
+                        <Message 
+                            key={"message" + index}
+                            history={history}
+                            isUser={history.displayName === displayName}
+                            isSame={
+                                index > 0 && 
+                                history.displayName === configuredRoomHistory[index-1].displayName
+                            }
+                            isLast={
+                                !configuredRoomHistory[index+1] ||
+                                history.displayName !== configuredRoomHistory[index+1].displayName
+                            }
+                        />    
+                    )
+                })}
                 {roomHistory.length === 0 && <div className="no-messages">There are currently no messages.</div>}
             </div>
 

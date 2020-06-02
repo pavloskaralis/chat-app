@@ -20,6 +20,8 @@
 
 .cancel-button, .submit-button, .close-button, .yes-button, .no-button {
     width: 120px;
+    box-sizing: border-box;
+    margin: 0 2px; 
 }
 
 .start-button {
